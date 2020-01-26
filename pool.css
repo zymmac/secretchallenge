@@ -1,3 +1,8 @@
 h1{
   color: red;
 }
+
+#logo{
+  width: 70px;
+  height: 40px;
+}
