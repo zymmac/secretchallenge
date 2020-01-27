@@ -11,7 +11,7 @@
 
   <body>
     <!-- Navbar goes here -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <a class="navbar-brand" href="#"><img id='logo'src="https://static.wixstatic.com/media/c0a551_7a240e5dc07ee242bc4aaa525a3e9fcc.gif" alt="Acquavinil"></a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -71,10 +71,42 @@
             </li>
           </ul>
         </div>
+        <!-- Card body starts here -->
         <div class="card-body">
           <h5 class="card-title">Special title treatment</h5>
-          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
+          <form>
+            <div class="form-group">
+              <label for="measureLen">Length</label>
+              <input type="text" class="form-control" id="measureLen" placeholder="Enter length in meters. e.g.: 12.5">
+            </div>
+            <div class="form-group">
+              <label for="measureWid">Width</label>
+              <input type="text" class="form-control" id="measureWid" placeholder="Enter width in meters. e.g.: 5.5">
+            </div>
+            <div class="form-group">
+              <label for="measureDia">Diameter</label>
+              <input type="text" class="form-control" id="measureDia" placeholder="Enter width in meters. e.g.: 5.5">
+            </div>
+            <div class="form-group">
+              <label for="measureLLen">Long length</label>
+              <input type="text" class="form-control" id="measureLLen" placeholder="Enter width in meters. e.g.: 5.5">
+            </div>
+            <div class="form-group">
+              <label for="measureSLen">Short length</label>
+              <input type="text" class="form-control" id="measureSLen" placeholder="Enter width in meters. e.g.: 5.5">
+            </div>
+            <div class="form-group">
+              <label for="measureDepS">Depth (shallow end)</label>
+              <input type="text" class="form-control" id="measureDepS" placeholder="Enter depth in meters (shallow end). e.g.: 1.2">
+            </div>
+            <div class="form-group">
+              <label for="measureDepD">OPTIONAL: Depth (deep end)</label>
+              <input type="text" class="form-control" id="measureDepD" placeholder="Enter depth in meters (shallow end). e.g.: 1.8">
+            </div>
+          </form>
+          <!-- <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p> -->
+          <a href="#" class="btn btn-primary">Calculate</a>
         </div>
       </div>
     </div>

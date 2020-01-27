@@ -6,3 +6,7 @@ h1{
   width: 70px;
   height: 40px;
 }
+
+.form-group{
+  text-align: left;
+}
