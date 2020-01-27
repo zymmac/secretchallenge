@@ -22,4 +22,5 @@ h1{
 
 #resultJumbotron{
   background-color: #4db8ff;
+  display: none;
 }

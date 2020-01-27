@@ -94,8 +94,8 @@ function evaluateAreaVol() {
   volume = 'volume' + format + '()';
   $('#formatText').text(format);
   $('#formatArea').text(Math.round(eval(area)*100)/100);
-  $('#formatVolume').text(Math.round(eval(volume)*1000));
-  console.log(area+volume);
+  $('#formatVolume').text(Math.round(eval(volume))*1000);
+  $('#resultJumbotron').css("display",'block');
 }
 
 // Reset Values
