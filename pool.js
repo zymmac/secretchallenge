@@ -33,19 +33,58 @@ $('.form-group.Round').css("display","block");
 $('.form-group.Depth').css("display","block");
 }
 
+// Show/Hide Oval
+function activeOval() {
+$('.form-group').css("display","none");
+$('.form-group.Oval').css("display","block");
+$('.form-group.Depth').css("display","block");
+}
+
 // Calculate
 
 // Calculate Rectangular
-function rectangularArea() {
+function areaRectangular() {
     var Len = $('#measureLen').val();
     var Wid = $('#measureWid').val();
     return Len*Wid;
 }
-function rectangularVolume() {
+
+function volumeRectangular() {
   var DepS = $('#measureDepS').val();
   var DepD = $('#measureDepD').val();
   if (DepD === "") {
     DepD = DepS;
   }
-  return rectangularArea()*(Number(DepD)+Number(DepS))/2
+  return areaRectangular()*(Number(DepD)+Number(DepS))/2
+}
+
+// Calculate Round
+function areaRound() {
+    var Dia = $('#measureDia').val();
+    return Math.PI*(Number(Dia)/2)**2
+}
+
+function volumeRound() {
+  var DepS = $('#measureDepS').val();
+  var DepD = $('#measureDepD').val();
+  if (DepD === "") {
+    DepD = DepS;
+  }
+  return areaRound()*(Number(DepD)+Number(DepS))/2
+}
+
+// Calculate Oval
+function areaOval() {
+    var SLen = $('#measureSLen').val();
+    var LLen = $('#measureLLen').val();
+    return Math.PI*(Number(SLen)/2)*(Number(LLen/2));
+}
+
+function volumeOval() {
+  var DepS = $('#measureDepS').val();
+  var DepD = $('#measureDepD').val();
+  if (DepD === "") {
+    DepD = DepS;
+  }
+  return areaOval()*(Number(DepD)+Number(DepS))/2
 }
