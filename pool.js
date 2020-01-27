@@ -92,5 +92,13 @@ function evaluateAreaVol() {
   format = $('#calculateBtn').attr('href').slice(1);
   area = 'area'+ format + '()';
   volume = 'volume' + format + '()';
+  $('#formatText').text(format);
+  $('#formatArea').text(Math.round(eval(area)*100)/100);
+  $('#formatVolume').text(Math.round(eval(volume)*1000));
   console.log(area+volume);
+}
+
+// Reset Values
+function resetValues() {
+  $('.form-control').val("")
 }
