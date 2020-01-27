@@ -9,4 +9,13 @@ h1{
 
 .form-group{
   text-align: left;
+  display: none;
+}
+
+.form-group.Round{
+  display: block;
+}
+
+.form-group.Depth{
+  display: block;
 }

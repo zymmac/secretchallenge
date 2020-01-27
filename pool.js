@@ -11,9 +11,7 @@ $(function() {
 });
 
 /////// Show/Hide Form Inputs
-$(function() {
-  activeRound();
-})
+
 // Show/Hide Rectangular
 function activeRectangular() {
 $('.form-group').css("display","none");
@@ -26,4 +24,28 @@ function activeRound() {
 $('.form-group').css("display","none");
 $('.form-group.Round').css("display","block");
 $('.form-group.Depth').css("display","block");
+}
+
+// Show/Hide Round
+function activeRound() {
+$('.form-group').css("display","none");
+$('.form-group.Round').css("display","block");
+$('.form-group.Depth').css("display","block");
+}
+
+// Calculate
+
+// Calculate Rectangular
+function rectangularArea() {
+    var Len = $('#measureLen').val();
+    var Wid = $('#measureWid').val();
+    return Len*Wid;
+}
+function rectangularVolume() {
+  var DepS = $('#measureDepS').val();
+  var DepD = $('#measureDepD').val();
+  if (DepD === "") {
+    DepD = DepS;
+  }
+  return rectangularArea()*(Number(DepD)+Number(DepS))/2
 }
