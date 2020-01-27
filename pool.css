@@ -19,3 +19,7 @@ h1{
 .form-group.Depth{
   display: block;
 }
+
+#resultJumbotron{
+  background-color: #4db8ff;
+}

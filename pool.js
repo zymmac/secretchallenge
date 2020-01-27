@@ -17,6 +17,7 @@ function activeRectangular() {
 $('.form-group').css("display","none");
 $('.form-group.Rectangular').css("display","block");
 $('.form-group.Depth').css("display","block");
+$('#calculateBtn').attr("href", "#Rectangular")
 }
 
 // Show/Hide Round
@@ -24,13 +25,7 @@ function activeRound() {
 $('.form-group').css("display","none");
 $('.form-group.Round').css("display","block");
 $('.form-group.Depth').css("display","block");
-}
-
-// Show/Hide Round
-function activeRound() {
-$('.form-group').css("display","none");
-$('.form-group.Round').css("display","block");
-$('.form-group.Depth').css("display","block");
+$('#calculateBtn').attr("href", "#Round")
 }
 
 // Show/Hide Oval
@@ -38,6 +33,7 @@ function activeOval() {
 $('.form-group').css("display","none");
 $('.form-group.Oval').css("display","block");
 $('.form-group.Depth').css("display","block");
+$('#calculateBtn').attr("href", "#Oval")
 }
 
 // Calculate
@@ -87,4 +83,14 @@ function volumeOval() {
     DepD = DepS;
   }
   return areaOval()*(Number(DepD)+Number(DepS))/2
+}
+
+//////// Results
+
+// Volume and Area
+function evaluateAreaVol() {
+  format = $('#calculateBtn').attr('href').slice(1);
+  area = 'area'+ format + '()';
+  volume = 'volume' + format + '()';
+  console.log(area+volume);
 }
