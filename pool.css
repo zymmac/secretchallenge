@@ -21,6 +21,15 @@ h1{
 }
 
 #resultJumbotron{
-  background-color: #4db8ff;
   display: none;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.card{
+  margin: 20px;
+}
+
+.form-check-inline{
+  margin: 10px 10px 10px 10px;
 }
