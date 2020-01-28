@@ -18,6 +18,7 @@ $('.form-group').css("display","none");
 $('.form-group.Rectangular').css("display","block");
 $('.form-group.Depth').css("display","block");
 $('#calculateBtn').attr("href", "#Rectangular")
+$('#poolImage').attr("src", "poolRectangular.png")
 }
 
 // Show/Hide Round
@@ -26,6 +27,7 @@ $('.form-group').css("display","none");
 $('.form-group.Round').css("display","block");
 $('.form-group.Depth').css("display","block");
 $('#calculateBtn').attr("href", "#Round")
+$('#poolImage').attr("src", "poolRound.png")
 }
 
 // Show/Hide Oval
@@ -34,6 +36,7 @@ $('.form-group').css("display","none");
 $('.form-group.Oval').css("display","block");
 $('.form-group.Depth').css("display","block");
 $('#calculateBtn').attr("href", "#Oval")
+$('#poolImage').attr("src", "poolOval.png")
 }
 
 // Calculate
