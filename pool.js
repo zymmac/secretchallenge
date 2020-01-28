@@ -105,3 +105,24 @@ function evaluateAreaVol() {
 function resetValues() {
   $('.form-control').val("")
 }
+
+
+//Products
+
+var products = {
+  LED_Light_ABS_37_blu: {
+    tags: 'Lighting, ABS, Blue',
+    url: 'LED_Light_ABS_37_blu.png',
+    price: 40
+  },
+  LED_Light_ABS_37_rgb: {
+    tags: 'Lighting, ABS, RGB',
+    url: 'LED_Light_ABS_37_rgb.png',
+    price: 40
+  },
+  Control_Box_RGB: {
+    tags: 'Lighting, ABS, Stainless, RGB',
+    url: 'Control_Box_RGB.png',
+    price: 90
+  },
+}
