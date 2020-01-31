@@ -110,19 +110,56 @@ function resetValues() {
 //Products
 
 var products = {
-  LED_Light_ABS_37_blu: {
-    tags: 'Lighting, ABS, Blue',
-    url: 'LED_Light_ABS_37_blu.png',
-    price: 40
-  },
-  LED_Light_ABS_37_rgb: {
-    tags: 'Lighting, ABS, RGB',
-    url: 'LED_Light_ABS_37_rgb.png',
-    price: 40
+  LED_Light: {
+    tags: ['Lighting'],
+    abs: {
+      led37: {
+        blue: {
+          url: 'LED_Light_ABS_37_blu.png',
+          price: 40
+        },
+        rgb: {
+          url: 'LED_Light_ABS_37_rgb.png',
+          price: 40
+        }
+      },
+      led70: {
+        blue: {
+          url: 'LED_Light_ABS_70_blu.png',
+          price: 60
+        },
+        rgb: {
+          url: 'LED_Light_ABS_70_rgb.png',
+          price: 60
+        }
+      }
+    },
+    stainless: {
+      led37: {
+        blue: {
+          url: 'LED_Light_stainless_37_blu.png',
+          price: 50
+        },
+        rgb: {
+          url: 'LED_Light_stainless_37_rgb.png',
+          price: 50
+        }
+      },
+      led70: {
+        blue: {
+          url: 'LED_Light_stainless_70_blu.png',
+          price: 70
+        },
+        rgb: {
+          url: 'LED_Light_stainless_70_rgb.png',
+          price: 70
+        }
+      }
+    }
   },
   Control_Box_RGB: {
-    tags: 'Lighting, ABS, Stainless, RGB',
+    tags: ['Lighting'],
     url: 'Control_Box_RGB.png',
     price: 90
-  },
+  }
 }
