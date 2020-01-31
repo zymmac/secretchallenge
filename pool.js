@@ -108,9 +108,10 @@ function resetValues() {
 
 
 //Products
+var listProducts = [];
 
 class Product {
-  constructor(name, price, url, material, size, color, area, volume) {
+  constructor(name, price, url, material, size, color, area, volume, tags) {
     this.name = name;
     this.price = price;
     this.url = url;
@@ -119,6 +120,7 @@ class Product {
     this.material = material;
     this.color = color;
     this.volume = volume;
+    this.tags = tags;
   }
 
   quantityByArea(formatArea) {
@@ -128,4 +130,16 @@ class Product {
   quantityByVolume(formatVolume) {
     return Math.ceil(formatVolume / this.volume);
   };
+
+  createVariations(key,arr) {
+    this[key] = arr[0];
+    for (var i = 1; i < arr.length; i++) {
+      var newVariation = Object.create(this);
+      newVariation[key] = arr[i];
+      listProducts.push(newVariation);
+    }
+  }
 }
+
+listProducts.push(new Product("Led Light", 40, "testeurl"));
+listProducts.push(new Product("Central System", 90, "testeurl2"));
