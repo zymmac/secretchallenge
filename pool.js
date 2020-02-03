@@ -24,11 +24,13 @@ function removeByTag(tag) {
 }
 
 function addOrRemove(obj) {
-  if($("#CheckboxLighting").is(":checked")) {
-    alert("yes, checked");
+  var tag = $(obj).val();
+  if($(obj).is(":checked")) {
+    addByTag(tag);
   } else {
-    alert("not checked");
+    removeByTag(tag);
   }
+  console.log(arrTags);
 }
 
 
