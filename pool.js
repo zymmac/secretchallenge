@@ -10,6 +10,28 @@ $(function() {
    });
 });
 
+  // Add or Remove Products to listProducts by tag
+function addByTag(tag) {
+  for (var i = 0; i < listProducts.length; i++) {
+    if (listProducts[i].tags === tag) {
+      arrTags[tag].push(listProducts[i])
+    }
+  }
+}
+
+function removeByTag(tag) {
+  arrTags[tag] = [];
+}
+
+function addOrRemove(obj) {
+  if($("#CheckboxLighting").is(":checked")) {
+    alert("yes, checked");
+  } else {
+    alert("not checked");
+  }
+}
+
+
 /////// Show/Hide Form Inputs
 
 // Show/Hide Rectangular
@@ -39,7 +61,7 @@ $('#calculateBtn').attr("href", "#Oval")
 $('#poolImage').attr("src", "poolOval.png")
 }
 
-// Calculate
+// Calculate Area and Volume
 
 // Calculate Rectangular
 function areaRectangular() {
@@ -141,5 +163,22 @@ class Product {
   }
 }
 
-listProducts.push(new Product("Led Light", 40, "testeurl"));
-listProducts.push(new Product("Central System", 90, "testeurl2"));
+listProducts.push(new Product("Led Light", 40, "testeurl.png","ABS","37 LED", "blue",6,undefined,"Lighting"));
+listProducts.push(new Product("Led Light", 45, "testeurl.png","Stainless steel","37 LED", "blue",6,undefined,"Lighting"));
+listProducts.push(new Product("Led Light", 40, "testeurl.png","ABS","37 LED", "RGB",6,undefined,"Lighting"));
+listProducts.push(new Product("Led Light", 45, "testeurl.png","Stainless steel","37 LED", "RGB",6,undefined,"Lighting"));
+listProducts.push(new Product("Led Light", 60, "testeurl.png","ABS","70 LED", "blue",6,undefined,"Lighting"));
+listProducts.push(new Product("Led Light", 65, "testeurl.png","Stainless steel","70 LED", "blue",6,undefined,"Lighting"));
+listProducts.push(new Product("Led Light", 60, "testeurl.png","ABS","70 LED", "RGB",6,undefined,"Lighting"));
+listProducts.push(new Product("Led Light", 65, "testeurl.png","Stainless steel","70 LED", "RGB",6,undefined,"Lighting"));
+listProducts.push(new Product("Plastico Bolha", 10, "testeurl.png","Plastico","300 micra", "blue",1,undefined,"Solar"));
+
+// Tags Arrays
+
+var arrTags = {
+  Lighting: [],
+  Cleaning: [],
+  Filter: [],
+  WaterCare: [],
+  Solar: []
+};
