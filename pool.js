@@ -23,6 +23,7 @@ function removeByTag(tag) {
   arrTags[tag] = [];
 }
 
+  // Checkbox OnChange addByTag or removeByTag functions if checked
 function addOrRemove(obj) {
   var tag = $(obj).val();
   if($(obj).is(":checked")) {
@@ -173,7 +174,7 @@ listProducts.push(new Product("Led Light", 60, "testeurl.png","ABS","70 LED", "b
 listProducts.push(new Product("Led Light", 65, "testeurl.png","Stainless steel","70 LED", "blue",6,undefined,"Lighting"));
 listProducts.push(new Product("Led Light", 60, "testeurl.png","ABS","70 LED", "RGB",6,undefined,"Lighting"));
 listProducts.push(new Product("Led Light", 65, "testeurl.png","Stainless steel","70 LED", "RGB",6,undefined,"Lighting"));
-listProducts.push(new Product("Plastico Bolha", 10, "testeurl.png","Plastico","300 micra", "blue",1,undefined,"Solar"));
+listProducts.push(new Product("Plastico Bolha", 10, "testeurl.png","Plastico","300 micra", "blue",1,undefined,"Heaters"));
 
 // Tags Arrays
 
@@ -182,5 +183,5 @@ var arrTags = {
   Cleaning: [],
   Filter: [],
   WaterCare: [],
-  Solar: []
+  Heaters: []
 };
