@@ -211,7 +211,7 @@ let createTaskCard = (listProducts) => {
     title.className = 'card-title';
 
     let price = document.createElement('p');
-    price.innerText = listProducts.price;
+    price.innerText = listProducts.price + "€";
     price.className = 'card-text';
 
 

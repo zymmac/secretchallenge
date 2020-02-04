@@ -27,9 +27,18 @@ h1{
 }
 
 .card{
-  margin: 20px;
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+}
+
+.col{
+  padding: 3px;
 }
 
 .form-check-inline{
   margin: 10px 10px 10px 10px;
+}
+
+.card-text{
+  text-align: right;
 }
