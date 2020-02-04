@@ -8,8 +8,8 @@ var listProducts = {
               title: "Led Light - RGB",
               price: "Price 30€",
               src: "products_img/LED_Light_ABS_37_rgb.png"
-            },
-            {
+            }],
+    Solar: [{
               title: "Control Box - RGB",
               price: "Price 90€",
               src: "products_img/Control_Box_RGB.png"
@@ -18,11 +18,10 @@ var listProducts = {
               title: "Led Light - RGB",
               price: "Price 30€",
               src: "products_img/LED_Light_ABS_37_rgb.png"
-            }],
-    Solar: "string"
+            }]
       };
 
-var arrTag = listProducts["Lighting"];
+// var arrTag = listProducts["Lighting"];
 
 
 let cardContainer;
@@ -68,9 +67,12 @@ let initListOfProducts = () => {
     }
 
     cardContainer = document.getElementById('card-Container');
-    arrTag.forEach((arrTag) => {
-        createTaskCard(arrTag);
-    });
+    for (tag in listProducts) {
+      var arrTag = listProducts[tag];
+      arrTag.forEach((arrTag) => {
+          createTaskCard(arrTag);
+      });
+    }
 };
 
 initListOfProducts();
