@@ -1,6 +1,15 @@
 .card{
-  border: 1px black solid;
+  /* border: 1px black solid; */
   margin-left: 0px !important;
   margin-right: 0px !important;
 
+}
+
+h5{
+  font-size: 14px;
+  display: ;
+}
+
+.col{
+  padding: 3px;
 }

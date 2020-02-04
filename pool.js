@@ -166,15 +166,15 @@ class Product {
   }
 }
 
-listProducts.push(new Product("Led Light", 40, "testeurl.png","ABS","37 LED", "blue",6,undefined,"Lighting"));
-listProducts.push(new Product("Led Light", 45, "testeurl.png","Stainless steel","37 LED", "blue",6,undefined,"Lighting"));
-listProducts.push(new Product("Led Light", 40, "testeurl.png","ABS","37 LED", "RGB",6,undefined,"Lighting"));
-listProducts.push(new Product("Led Light", 45, "testeurl.png","Stainless steel","37 LED", "RGB",6,undefined,"Lighting"));
-listProducts.push(new Product("Led Light", 60, "testeurl.png","ABS","70 LED", "blue",6,undefined,"Lighting"));
-listProducts.push(new Product("Led Light", 65, "testeurl.png","Stainless steel","70 LED", "blue",6,undefined,"Lighting"));
-listProducts.push(new Product("Led Light", 60, "testeurl.png","ABS","70 LED", "RGB",6,undefined,"Lighting"));
-listProducts.push(new Product("Led Light", 65, "testeurl.png","Stainless steel","70 LED", "RGB",6,undefined,"Lighting"));
-listProducts.push(new Product("Plastico Bolha", 10, "testeurl.png","Plastico","300 micra", "blue",1,undefined,"Heaters"));
+listProducts.push(new Product("Led Light", 40, "products_img/LED_Light_ABS_37_blu.png","ABS","37 LED", "blue",6,undefined,"Lighting"));
+listProducts.push(new Product("Led Light", 45, "products_img/LED_Light_ABS_37_blu.png","Stainless steel","37 LED", "blue",6,undefined,"Lighting"));
+listProducts.push(new Product("Led Light", 40, "products_img/LED_Light_ABS_37_blu.png","ABS","37 LED", "RGB",6,undefined,"Lighting"));
+listProducts.push(new Product("Led Light", 45, "products_img/LED_Light_ABS_37_blu.png","Stainless steel","37 LED", "RGB",6,undefined,"Lighting"));
+listProducts.push(new Product("Led Light", 60, "products_img/LED_Light_ABS_37_blu.png","ABS","70 LED", "blue",6,undefined,"Lighting"));
+listProducts.push(new Product("Led Light", 65, "products_img/LED_Light_ABS_37_blu.png","Stainless steel","70 LED", "blue",6,undefined,"Lighting"));
+listProducts.push(new Product("Led Light", 60, "products_img/LED_Light_ABS_37_blu.png","ABS","70 LED", "RGB",6,undefined,"Lighting"));
+listProducts.push(new Product("Led Light", 65, "products_img/LED_Light_ABS_37_blu.png","Stainless steel","70 LED", "RGB",6,undefined,"Lighting"));
+listProducts.push(new Product("Plastico Bolha", 10, "products_img/LED_Light_ABS_37_blu.png","Plastico","300 micra", "blue",1,undefined,"Heaters"));
 
 // Tags Arrays
 
@@ -185,3 +185,55 @@ var arrTags = {
   WaterCare: [],
   Heaters: []
 };
+
+// Create Cards of Products
+
+let cardContainer;
+
+let createTaskCard = (listProducts) => {
+
+
+    let grid = document.createElement('div');
+    grid.className = 'col col-6 col-sm-4 col-md-3 col-lg-2 mb-3';
+
+    let card = document.createElement('div');
+    card.className = 'card';
+
+    let image = document.createElement('img');
+    image.src = listProducts.url;
+    image.className = 'card-img-top';
+
+    let cardBody = document.createElement('div');
+    cardBody.className = 'card-body';
+
+    let title = document.createElement('h5');
+    title.innerText = listProducts.name;
+    title.className = 'card-title';
+
+    let price = document.createElement('p');
+    price.innerText = listProducts.price;
+    price.className = 'card-text';
+
+
+    card.appendChild(image);
+    cardBody.appendChild(title);
+    cardBody.appendChild(price);
+    card.appendChild(cardBody);
+    grid.appendChild(card);
+    cardContainer.appendChild(grid);
+
+}
+
+let initListOfProducts = () => {
+    if (cardContainer) {
+        document.getElementById('card-Container').replaceWith(cardContainer);
+        return;
+    }
+
+    cardContainer = document.getElementById('card-Container');
+    listProducts.forEach((listProducts) => {
+        createTaskCard(listProducts);
+    });
+};
+
+initListOfProducts();
