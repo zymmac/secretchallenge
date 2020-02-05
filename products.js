@@ -21,10 +21,35 @@ var listProducts = {
             }]
       };
 
-// var arrTag = listProducts["Lighting"];
 
 
-let cardContainer;
+var jumboContainer;
+var cardContainer;
+
+let createTaskJumbo = (tag) => {
+
+  console.log(tag)
+
+  let divJumbo = document.createElement('div');
+  divJumbo.className = "jumbotron"
+
+  var title = document.createElement("h1");
+  title.innerText = tag;
+  title.className = "mb-4"
+
+  let cardDeck = document.createElement("div");
+  cardDeck.className = "card-deck";
+
+  let row = document.createElement("div");
+  row.className = "row";
+  row.id = "card-Container-"+tag
+
+  jumboContainer.appendChild(divJumbo);
+  divJumbo.appendChild(title);
+  divJumbo.appendChild(cardDeck);
+  cardDeck.appendChild(row);
+
+}
 
 let createTaskCard = (arrTag) => {
 
@@ -51,28 +76,38 @@ let createTaskCard = (arrTag) => {
     price.className = 'card-text';
 
 
+    cardContainer.appendChild(grid);
+    grid.appendChild(card);
     card.appendChild(image);
+    card.appendChild(cardBody);
     cardBody.appendChild(title);
     cardBody.appendChild(price);
-    card.appendChild(cardBody);
-    grid.appendChild(card);
-    cardContainer.appendChild(grid);
 
 }
 
-let initListOfProducts = () => {
-    if (cardContainer) {
-        document.getElementById('card-Container').replaceWith(cardContainer);
-        return;
-    }
+// let resetCardContainer = () => {
+//
+//   let.divId = document.createElement('div');
+//   divId.className = "row";
+//   divId.id = "card-Container"
+//
+// }
 
-    cardContainer = document.getElementById('card-Container');
+let initListOfProducts = () => {
+    // Delete All Cards
+    $('#card-Container').html("");
+    // Create cards from listProducts
+    jumboContainer = document.getElementById('jumbo-Container');
     for (tag in listProducts) {
-      var arrTag = listProducts[tag];
-      arrTag.forEach((arrTag) => {
-          createTaskCard(arrTag);
+      console.log(tag);
+      createTaskJumbo(tag);
+      var arrProductsofTag = listProducts[tag];
+      arrProductsofTag.forEach((arrTag) => {
+      cardContainer = document.getElementById('card-Container-'+tag);
+      createTaskCard(arrTag);
       });
     }
+
 };
 
 initListOfProducts();
