@@ -45,23 +45,23 @@
     <!-- Quotation types selection -->
     <div class="container border border-dark" align="center">
       <div class="form-check form-check-inline">
-        <input class="form-check-input" type="checkbox" id="CheckboxLighting" value="Lighting" onchange="addOrRemove(this)">
+        <input class="form-check-input" type="checkbox" id="CheckboxLighting" value="Lighting" onchange="addOrRemove(this); initListOfProducts();">
         <label class="form-check-label" for="CheckboxLighting">Lighting</label>
       </div>
       <div class="form-check form-check-inline">
-        <input class="form-check-input" type="checkbox" id="CheckboxCleaning" value="Cleaning" onchange="addOrRemove(this)">
+        <input class="form-check-input" type="checkbox" id="CheckboxCleaning" value="Cleaning" onchange="addOrRemove(this); initListOfProducts();">
         <label class="form-check-label" for="CheckboxCleaning">Pool Cleaning</label>
       </div>
       <div class="form-check form-check-inline">
-        <input class="form-check-input" type="checkbox" id="CheckboxFilter" value="Filter" onchange="addOrRemove(this)">
+        <input class="form-check-input" type="checkbox" id="CheckboxFilter" value="Filter" onchange="addOrRemove(this); initListOfProducts();">
         <label class="form-check-label" for="CheckboxPump">Pump & Filter Systems</label>
       </div>
       <div class="form-check form-check-inline">
-        <input class="form-check-input" type="checkbox" id="CheckboxWaterCare" value="WaterCare" onchange="addOrRemove(this)">
+        <input class="form-check-input" type="checkbox" id="CheckboxWaterCare" value="WaterCare" onchange="addOrRemove(this); initListOfProducts();">
         <label class="form-check-label" for="CheckboxWater">Water Care</label>
       </div>
       <div class="form-check form-check-inline">
-        <input class="form-check-input" type="checkbox" id="CheckboxHeaters" value="Heaters" onchange="addOrRemove(this)">
+        <input class="form-check-input" type="checkbox" id="CheckboxHeaters" value="Heaters" onchange="addOrRemove(this); initListOfProducts();">
         <label class="form-check-label" for="CheckboxHeaters">Solar Pool Heaters</label>
       </div>
     </div>
@@ -128,8 +128,8 @@
             </div>
           </form>
 
-          <a href="#Round" id='calculateBtn' onclick="evaluateAreaVol()" class="btn btn-primary">Calculate</a>
-          <a href="#Round" id='calculateBtn' onclick="resetValues()" class="btn btn-warning">Reset</a>
+          <a href="#Round" id='calculateBtn' onclick="evaluateAreaVol(); showProducts()" class="btn btn-primary">Calculate</a>
+          <a href="#Round" id='calculateBtn' onclick="resetValues(); hideProducts()" class="btn btn-warning">Reset</a>
         </div>
       </div>
     </div>
@@ -145,16 +145,10 @@
     </div>
 
     <!-- Begin of card generator -->
-        <div class="container">
-          <div class="jumbotron">
-            <h1 class="mb-4">Tag</h1>
-
-            <div class="card-deck">
-                <div class="row" id="card-Container"></div>
-            </div>
+    <div class="container">
+              <div id="jumbo-Container"></div>
           </div>
-        </div>
-      <!-- End of card generator        -->
+    <!-- End of card generator        -->
 
 
     <!-- Connect Jquery -->

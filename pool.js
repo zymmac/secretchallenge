@@ -34,6 +34,13 @@ function addOrRemove(obj) {
   console.log(arrTags);
 }
 
+function showProducts() {
+  $("#jumbo-Container").css("display","block");
+}
+
+function hideProducts() {
+  $("#jumbo-Container").css("display","none");
+}
 
 /////// Show/Hide Form Inputs
 
@@ -188,9 +195,35 @@ var arrTags = {
 
 // Create Cards of Products
 
-let cardContainer;
+var jumboContainer;
+var cardContainer;
 
-let createTaskCard = (listProducts) => {
+let createTaskJumbo = (tag) => {
+
+  console.log(tag)
+
+  let divJumbo = document.createElement('div');
+  divJumbo.className = "jumbotron"
+
+  var title = document.createElement("h1");
+  title.innerText = tag;
+  title.className = "mb-2"
+
+  let cardDeck = document.createElement("div");
+  cardDeck.className = "card-deck";
+
+  let row = document.createElement("div");
+  row.className = "row";
+  row.id = "card-Container-"+tag
+
+  jumboContainer.appendChild(divJumbo);
+  divJumbo.appendChild(title);
+  divJumbo.appendChild(cardDeck);
+  cardDeck.appendChild(row);
+
+}
+
+let createTaskCard = (arrTag) => {
 
 
     let grid = document.createElement('div');
@@ -200,40 +233,53 @@ let createTaskCard = (listProducts) => {
     card.className = 'card';
 
     let image = document.createElement('img');
-    image.src = listProducts.url;
+    image.src = arrTag.url;
     image.className = 'card-img-top';
 
     let cardBody = document.createElement('div');
     cardBody.className = 'card-body';
 
     let title = document.createElement('h5');
-    title.innerText = listProducts.name;
+    title.innerText = arrTag.name;
     title.className = 'card-title';
 
     let price = document.createElement('p');
-    price.innerText = listProducts.price + "€";
+    price.innerText = arrTag.price+"€";
     price.className = 'card-text';
 
 
+    cardContainer.appendChild(grid);
+    grid.appendChild(card);
     card.appendChild(image);
+    card.appendChild(cardBody);
     cardBody.appendChild(title);
     cardBody.appendChild(price);
-    card.appendChild(cardBody);
-    grid.appendChild(card);
-    cardContainer.appendChild(grid);
 
 }
 
+// let resetCardContainer = () => {
+//
+//   let.divId = document.createElement('div');
+//   divId.className = "row";
+//   divId.id = "card-Container"
+//
+// }
+
 let initListOfProducts = () => {
-    if (cardContainer) {
-        document.getElementById('card-Container').replaceWith(cardContainer);
-        return;
+    // Delete All Cards
+    $('#jumbo-Container').html("");
+    // Create cards from listProducts
+    jumboContainer = document.getElementById('jumbo-Container');
+    for (tag in arrTags) {
+      console.log(tag);
+      createTaskJumbo(tag);
+      var arrProductsofTag = arrTags[tag];
+      arrProductsofTag.forEach((arrTag) => {
+      cardContainer = document.getElementById('card-Container-'+tag);
+      createTaskCard(arrTag);
+      });
     }
 
-    cardContainer = document.getElementById('card-Container');
-    listProducts.forEach((listProducts) => {
-        createTaskCard(listProducts);
-    });
 };
 
 initListOfProducts();

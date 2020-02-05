@@ -42,3 +42,7 @@ h1{
 .card-text{
   text-align: right;
 }
+
+#jumbo-Container{
+  display: none;
+}
