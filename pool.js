@@ -11,35 +11,38 @@ $(function() {
 });
 
   // Add or Remove Products to listProducts by tag
-function addByTag(tag) {
+function addByType(type) {
   for (var i = 0; i < listProducts.length; i++) {
-    if (listProducts[i].tags === tag) {
-      arrTags[tag].push(listProducts[i])
+    if (listProducts[i].type === type) {
+      objTypes[type].push(listProducts[i])
     }
   }
 }
 
-function removeByTag(tag) {
-  arrTags[tag] = [];
+function removeByType(type) {
+  objTypes[type] = [];
 }
 
-  // Checkbox OnChange addByTag or removeByTag functions if checked
+  // Checkbox OnChange addByType or removeByType functions if checked
 function addOrRemove(obj) {
-  var tag = $(obj).val();
+  var type = $(obj).val();
   if($(obj).is(":checked")) {
-    addByTag(tag);
+    addByType(type);
   } else {
-    removeByTag(tag);
+    removeByType(type);
   }
-  console.log(arrTags);
+  console.log(objTypes);
 }
 
+// Show type selections and display products
 function showProducts() {
   $("#jumbo-Container").css("display","block");
+  $("#typesSelection").css("display","block");
 }
 
 function hideProducts() {
   $("#jumbo-Container").css("display","none");
+  $("#typesSelection").css("display","none");
 }
 
 /////// Show/Hide Form Inputs
@@ -136,6 +139,7 @@ function evaluateAreaVol() {
 // Reset Values
 function resetValues() {
   $('.form-control').val("")
+  $('#resultJumbotron').css("display",'none');
 }
 
 
@@ -143,7 +147,7 @@ function resetValues() {
 var listProducts = [];
 
 class Product {
-  constructor(name, price, url, material, size, color, area, volume, tags) {
+  constructor(name, price, url, material, size, color, area, volume, type) {
     this.name = name;
     this.price = price;
     this.url = url;
@@ -152,7 +156,7 @@ class Product {
     this.material = material;
     this.color = color;
     this.volume = volume;
-    this.tags = tags;
+    this.type = type;
   }
 
   quantityByArea(formatArea) {
@@ -183,9 +187,9 @@ listProducts.push(new Product("Led Light", 60, "products_img/LED_Light_ABS_37_bl
 listProducts.push(new Product("Led Light", 65, "products_img/LED_Light_ABS_37_blu.png","Stainless steel","70 LED", "RGB",6,undefined,"Lighting"));
 listProducts.push(new Product("Plastico Bolha", 10, "products_img/LED_Light_ABS_37_blu.png","Plastico","300 micra", "blue",1,undefined,"Heaters"));
 
-// Tags Arrays
+// Type Object
 
-var arrTags = {
+var objTypes = {
   Lighting: [],
   Cleaning: [],
   Filter: [],
@@ -198,15 +202,13 @@ var arrTags = {
 var jumboContainer;
 var cardContainer;
 
-let createTaskJumbo = (tag) => {
-
-  console.log(tag)
+let createTaskJumbo = (type) => {
 
   let divJumbo = document.createElement('div');
   divJumbo.className = "jumbotron"
 
   var title = document.createElement("h1");
-  title.innerText = tag;
+  title.innerText = type;
   title.className = "mb-2"
 
   let cardDeck = document.createElement("div");
@@ -214,7 +216,7 @@ let createTaskJumbo = (tag) => {
 
   let row = document.createElement("div");
   row.className = "row";
-  row.id = "card-Container-"+tag
+  row.id = "card-Container-"+type
 
   jumboContainer.appendChild(divJumbo);
   divJumbo.appendChild(title);
@@ -257,25 +259,16 @@ let createTaskCard = (arrTag) => {
 
 }
 
-// let resetCardContainer = () => {
-//
-//   let.divId = document.createElement('div');
-//   divId.className = "row";
-//   divId.id = "card-Container"
-//
-// }
-
 let initListOfProducts = () => {
     // Delete All Cards
     $('#jumbo-Container').html("");
     // Create cards from listProducts
     jumboContainer = document.getElementById('jumbo-Container');
-    for (tag in arrTags) {
-      console.log(tag);
-      createTaskJumbo(tag);
-      var arrProductsofTag = arrTags[tag];
-      arrProductsofTag.forEach((arrTag) => {
-      cardContainer = document.getElementById('card-Container-'+tag);
+    for (type in objTypes) {
+      createTaskJumbo(type);
+      var arrProductsinType = objTypes[type];
+      arrProductsinType.forEach((arrTag) => {
+      cardContainer = document.getElementById('card-Container-'+type);
       createTaskCard(arrTag);
       });
     }
