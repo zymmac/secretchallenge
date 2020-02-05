@@ -265,14 +265,15 @@ let initListOfProducts = () => {
     // Create cards from listProducts
     jumboContainer = document.getElementById('jumbo-Container');
     for (type in objTypes) {
-      createTaskJumbo(type);
-      var arrProductsinType = objTypes[type];
-      arrProductsinType.forEach((arrTag) => {
-      cardContainer = document.getElementById('card-Container-'+type);
-      createTaskCard(arrTag);
-      });
+      if (objTypes[type].length > 0) {
+        createTaskJumbo(type);
+        var arrProductsinType = objTypes[type];
+        arrProductsinType.forEach((arrTag) => {
+        cardContainer = document.getElementById('card-Container-'+type);
+        createTaskCard(arrTag);
+        });
+      }
     }
-
 };
 
 initListOfProducts();
