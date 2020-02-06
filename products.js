@@ -93,7 +93,7 @@ let createTaskCard = (arrTag) => {
 //
 // }
 
-let initListOfProducts = () => {
+let initTaskCards = () => {
     // Delete All Cards
     $('#card-Container').html("");
     // Create cards from listProducts
@@ -110,4 +110,4 @@ let initListOfProducts = () => {
 
 };
 
-initListOfProducts();
+initTaskCards();

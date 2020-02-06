@@ -261,7 +261,7 @@ let createTaskCard = (arrTag) => {
     title.className = 'card-title';
 
     let price = document.createElement('p');
-    price.innerText = arrTag.quantity+"x "+ arrTag.price+"€";
+    price.innerText = Math.ceil(arrTag.quantity)+"x "+ arrTag.price+"€";
     price.className = 'card-text';
 
 
@@ -274,7 +274,7 @@ let createTaskCard = (arrTag) => {
 
 }
 
-let initListOfProducts = () => {
+let initTaskCards = () => {
     // Delete All Cards
     $('#jumbo-Container').html("");
     // Create cards from listProducts
@@ -291,4 +291,4 @@ let initListOfProducts = () => {
     }
 };
 
-initListOfProducts();
+initTaskCards();
