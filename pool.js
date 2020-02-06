@@ -1,3 +1,8 @@
+/// Global variables
+
+var area;
+var volume;
+
 /////////// Functions
 
 // Change Active Tab
@@ -128,11 +133,15 @@ function volumeOval() {
 // Volume and Area
 function evaluateAreaVol() {
   format = $('#calculateBtn').attr('href').slice(1);
-  area = 'area'+ format + '()';
-  volume = 'volume' + format + '()';
+  areaFunc = 'area'+ format + '()';
+  volumeFunc = 'volume' + format + '()';
   $('#formatText').text(format);
-  $('#formatArea').text(Math.round(eval(area)*100)/100);
-  $('#formatVolume').text(Math.round(eval(volume))*1000);
+
+  area = eval(areaFunc);
+  volume = eval(volumeFunc);
+
+  $('#formatArea').text((Math.round(area)*100)/100);
+  $('#formatVolume').text(Math.round(volume)*1000);
   $('#resultJumbotron').css("display",'block');
 }
 
@@ -142,6 +151,19 @@ function resetValues() {
   $('#resultJumbotron').css("display",'none');
 }
 
+// Calculate quantities
+
+function quantify() {
+
+    for (productKey in listProducts){
+      product = listProducts[productKey];
+      if (product.area) {
+        product.quantity = (area / product.area);
+      } else if (product.volume) {
+        product.quantity = (volume / product.volume);
+      };
+    };
+};
 
 //Products
 var listProducts = [];
@@ -158,14 +180,6 @@ class Product {
     this.volume = volume;
     this.type = type;
   }
-
-  quantityByArea(formatArea) {
-    return Math.ceil(formatArea / this.area);
-  };
-
-  quantityByVolume(formatVolume) {
-    return Math.ceil(formatVolume / this.volume);
-  };
 
   createVariations(key,arr) {
     this[key] = arr[0];
@@ -186,6 +200,7 @@ listProducts.push(new Product("Led Light", 65, "products_img/LED_Light_ABS_37_bl
 listProducts.push(new Product("Led Light", 60, "products_img/LED_Light_ABS_37_blu.png","ABS","70 LED", "RGB",6,undefined,"Lighting"));
 listProducts.push(new Product("Led Light", 65, "products_img/LED_Light_ABS_37_blu.png","Stainless steel","70 LED", "RGB",6,undefined,"Lighting"));
 listProducts.push(new Product("Plastico Bolha", 10, "products_img/LED_Light_ABS_37_blu.png","Plastico","300 micra", "blue",1,undefined,"Heaters"));
+listProducts.push(new Product("Bomba A", 300, "products_img/LED_Light_ABS_37_blu.png",undefined,"2 HP",undefined,undefined,24,"Filter"));
 
 // Type Object
 
@@ -246,7 +261,7 @@ let createTaskCard = (arrTag) => {
     title.className = 'card-title';
 
     let price = document.createElement('p');
-    price.innerText = arrTag.price+"€";
+    price.innerText = arrTag.quantity+"x "+ arrTag.price+"€";
     price.className = 'card-text';
 
 
