@@ -170,11 +170,13 @@ var listProducts = [];
 
 class Product {
   constructor(name, price, url, material, size, color, area, volume, type) {
+  constructor(name, price, url, material, model, color, area, volume, type) {
     this.name = name;
     this.price = price;
     this.url = url;
     this.area = area;
     this.size = size;
+    this.model = model;
     this.material = material;
     this.color = color;
     this.volume = volume;
