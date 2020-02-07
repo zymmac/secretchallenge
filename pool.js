@@ -214,6 +214,33 @@ var objTypes = {
   Heaters: []
 };
 
+// Creating object to get unique variations to create radio form
+var objVariations = {
+  Lighting: {},
+  Cleaning: {},
+  Filter: {},
+  WaterCare: {},
+  Heaters: {}
+};
+
+var arrKinds = ['material',
+                'model',
+                'color'
+                ];
+
+for (type in objVariations) {
+  objVariations[type] = {};
+  arrKinds.forEach(kind => {
+    objVariations[type][kind] = [];
+    for (productKey in objTypes[type]) {
+      if(objVariations[type][kind].indexOf(objTypes[type][productKey][kind]) === -1) {
+        objVariations[type][kind].push(objTypes[type][productKey][kind]);
+      };
+    };
+  });
+};
+
+
 // Create Cards of Products
 
 var jumboContainer;
@@ -242,7 +269,7 @@ let createTaskJumbo = (type) => {
 
 }
 
-let createTaskCard = (arrTag) => {
+let createTaskCard = (product) => {
 
 
     let grid = document.createElement('div');
@@ -252,18 +279,18 @@ let createTaskCard = (arrTag) => {
     card.className = 'card';
 
     let image = document.createElement('img');
-    image.src = arrTag.url;
+    image.src = product.url;
     image.className = 'card-img-top';
 
     let cardBody = document.createElement('div');
     cardBody.className = 'card-body';
 
     let title = document.createElement('h5');
-    title.innerText = arrTag.name;
+    title.innerText = product.name;
     title.className = 'card-title';
 
     let price = document.createElement('p');
-    price.innerText = Math.ceil(arrTag.quantity)+"x "+ arrTag.price+"€";
+    price.innerText = Math.ceil(product.quantity)+"x "+ product.price+"€";
     price.className = 'card-text';
 
 
@@ -285,9 +312,9 @@ let initTaskCards = () => {
       if (objTypes[type].length > 0) {
         createTaskJumbo(type);
         var arrProductsinType = objTypes[type];
-        arrProductsinType.forEach((arrTag) => {
+        arrProductsinType.forEach((product) => {
         cardContainer = document.getElementById('card-Container-'+type);
-        createTaskCard(arrTag);
+        createTaskCard(product);
         });
       }
     }
