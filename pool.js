@@ -191,6 +191,8 @@ class Product {
   }
 }
 
+//
+
 listProducts.push(new Product("Led Light", 40, "products_img/LED_Light_ABS_37_blu.png","ABS","37 LED", "blue",6,undefined,"Lighting"));
 listProducts.push(new Product("Led Light", 45, "products_img/LED_Light_ABS_37_blu.png","Stainless steel","37 LED", "blue",6,undefined,"Lighting"));
 listProducts.push(new Product("Led Light", 40, "products_img/LED_Light_ABS_37_blu.png","ABS","37 LED", "RGB",6,undefined,"Lighting"));
