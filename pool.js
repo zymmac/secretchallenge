@@ -143,12 +143,18 @@ function evaluateAreaVol() {
   $('#formatArea').text((Math.round(area)*100)/100);
   $('#formatVolume').text(Math.round(volume)*1000);
   $('#resultJumbotron').css("display",'block');
+  $('#poolImage').css("display","none");
+  $('#poolDimensions').css("display","none");
+  $('#poolTitle').css("display","none");
 }
 
 // Reset Values
 function resetValues() {
   $('.form-control').val("")
   $('#resultJumbotron').css("display",'none');
+  $('#poolDimensions').css("display","");
+  $('#poolImage').css("display","");
+  $('#poolTitle').css("display","");
 }
 
 // Calculate quantities
@@ -215,6 +221,7 @@ var objTypes = {
 };
 
 // Creating object to get unique variations to create radio form
+
 var objVariations = {
   Lighting: {},
   Cleaning: {},
@@ -228,18 +235,22 @@ var arrKinds = ['material',
                 'color'
                 ];
 
-for (type in objVariations) {
-  objVariations[type] = {};
-  arrKinds.forEach(kind => {
-    objVariations[type][kind] = [];
-    for (productKey in objTypes[type]) {
-      if(objVariations[type][kind].indexOf(objTypes[type][productKey][kind]) === -1) {
-        objVariations[type][kind].push(objTypes[type][productKey][kind]);
-      };
-    };
-  });
-};
 
+function uniqueVariations() {
+
+  for (type in objVariations) {
+    // objVariations[type] = {};
+    arrKinds.forEach(kind => {
+      objVariations[type][kind] = [];
+      for (productKey in objTypes[type]) {
+        if(objVariations[type][kind].indexOf(objTypes[type][productKey][kind]) === -1) {
+          objVariations[type][kind].push(objTypes[type][productKey][kind]);
+        };
+      };
+    });
+  };
+  console.log(objVariations);
+}
 
 // Create Cards of Products
 

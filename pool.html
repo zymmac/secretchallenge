@@ -71,11 +71,11 @@
             </li> -->
           </ul>
         </div>
-        <!-- Card body starts here -->
+        <!-- Swimming Pool Dimensions Form starts here -->
         <div class="card-body">
-          <h5 class="card-title">Swimming Pool Dimensions</h5>
-          <img id='poolImage' src="poolRound.png" alt="pool">
-          <form>
+          <h5 class="card-title" id="poolTitle">Swimming Pool Dimensions</h5>
+          <img id='poolImage' align="center" src="poolRound.png" alt="pool">
+          <form id='poolDimensions'>
             <div class="form-group Rectangular">
               <label for="measureLen">Length</label>
               <input type="text" class="form-control" id="measureLen" placeholder="Enter length in meters. e.g.: 12.5">
@@ -106,8 +106,8 @@
             </div>
           </form>
 
-          <a href="#Round" id='calculateBtn' onclick="evaluateAreaVol(); showProducts(); quantify()" class="btn btn-primary">Calculate</a>
-          <a href="#Round" id='calculateBtn' onclick="resetValues(); hideProducts() quantify()" class="btn btn-warning">Reset</a>
+          <a href="#Round" id='calculateBtn' onclick="evaluateAreaVol(); showProducts(); quantify();" class="btn btn-primary">Calculate</a>
+          <a href="#Round" id='calculateBtn' onclick="resetValues(); hideProducts(); quantify();" class="btn btn-warning">Reset</a>
         </div>
       </div>
     </div>
@@ -124,23 +124,23 @@
     <!-- Quotation types selection -->
     <div class="container border border-dark" align="center" id="typesSelection">
       <div class="form-check form-check-inline">
-        <input class="form-check-input" type="checkbox" id="CheckboxLighting" value="Lighting" onchange="addOrRemove(this); initTaskCards();">
+        <input class="form-check-input" type="checkbox" id="CheckboxLighting" value="Lighting" onchange="addOrRemove(this); initTaskCards(); uniqueVariations();">
         <label class="form-check-label" for="CheckboxLighting">Lighting</label>
       </div>
       <div class="form-check form-check-inline">
-        <input class="form-check-input" type="checkbox" id="CheckboxCleaning" value="Cleaning" onchange="addOrRemove(this); initTaskCards();">
+        <input class="form-check-input" type="checkbox" id="CheckboxCleaning" value="Cleaning" onchange="addOrRemove(this); initTaskCards(); uniqueVariations();">
         <label class="form-check-label" for="CheckboxCleaning">Pool Cleaning</label>
       </div>
       <div class="form-check form-check-inline">
-        <input class="form-check-input" type="checkbox" id="CheckboxFilter" value="Filter" onchange="addOrRemove(this); initTaskCards();">
+        <input class="form-check-input" type="checkbox" id="CheckboxFilter" value="Filter" onchange="addOrRemove(this); initTaskCards(); uniqueVariations();">
         <label class="form-check-label" for="CheckboxPump">Pump & Filter Systems</label>
       </div>
       <div class="form-check form-check-inline">
-        <input class="form-check-input" type="checkbox" id="CheckboxWaterCare" value="WaterCare" onchange="addOrRemove(this); initTaskCards();">
+        <input class="form-check-input" type="checkbox" id="CheckboxWaterCare" value="WaterCare" onchange="addOrRemove(this); initTaskCards(); uniqueVariations();">
         <label class="form-check-label" for="CheckboxWater">Water Care</label>
       </div>
       <div class="form-check form-check-inline">
-        <input class="form-check-input" type="checkbox" id="CheckboxHeaters" value="Heaters" onchange="addOrRemove(this); initTaskCards();">
+        <input class="form-check-input" type="checkbox" id="CheckboxHeaters" value="Heaters" onchange="addOrRemove(this); initTaskCards(); uniqueVariations();">
         <label class="form-check-label" for="CheckboxHeaters">Solar Pool Heaters</label>
       </div>
     </div>
