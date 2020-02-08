@@ -237,7 +237,7 @@ var arrKinds = ['material',
                 'color'
                 ];
 
-
+//FUNCTION uniqueVariations
 function uniqueVariations() {
 
   for (type in objVariations) {
@@ -254,6 +254,48 @@ function uniqueVariations() {
   console.log(objVariations);
 }
 
+// task create radio forms for variations
+
+var variationsContainer;
+
+let createTaskKindForm = (type, kind) => {
+
+  var p = document.createElement("p");
+  p.id = "kindTitle";
+
+  var strong = document.createElement("strong");
+  strong.innerText = kind;
+
+  variationsContainer.appendChild(p);
+  p.appendChild(strong)
+
+  for (var i = 0; i < objVariations[type][kind].length; i++) {
+
+    var div = document.createElement("div");
+    div.className = "custom-control custom-radio custom-control-inline";
+
+    var input = document.createElement("input");
+    input.type = "radio";
+    input.name = type+"-"+kind;
+    input.id = type+"-"+kind+i;
+    input.className = "custom-control-input";
+
+    var label = document.createElement("label");
+    label.className = "custom-control-label"
+    label.htmlFor = input.id;
+    label.innerText = objVariations[type][kind][i];
+
+    variationsContainer.appendChild(div);
+    div.appendChild(input);
+    div.appendChild(label);
+
+  }
+  var br = document.createElement("br");
+  variationsContainer.appendChild(br);
+}
+
+
+
 // Create Cards of Products
 
 var jumboContainer;
@@ -262,11 +304,14 @@ var cardContainer;
 let createTaskJumbo = (type) => {
 
   let divJumbo = document.createElement('div');
-  divJumbo.className = "jumbotron"
+  divJumbo.className = "jumbotron";
 
   var title = document.createElement("h1");
   title.innerText = type;
-  title.className = "mb-2"
+  title.className = "mb-2";
+
+  var spanVariations = document.createElement('span');
+  spanVariations.id = "variations-"+type;
 
   let cardDeck = document.createElement("div");
   cardDeck.className = "card-deck";
@@ -277,6 +322,7 @@ let createTaskJumbo = (type) => {
 
   jumboContainer.appendChild(divJumbo);
   divJumbo.appendChild(title);
+  divJumbo.appendChild(spanVariations);
   divJumbo.appendChild(cardDeck);
   cardDeck.appendChild(row);
 
@@ -324,6 +370,12 @@ let initTaskCards = () => {
     for (type in objTypes) {
       if (objTypes[type].length > 0) {
         createTaskJumbo(type);
+        arrKinds.forEach(kind => {
+          if(objVariations[type][kind].length > 1) {
+            variationsContainer = document.getElementById("variations-"+type)
+            createTaskKindForm(type, kind);
+          };
+        });
         var arrProductsinType = objTypes[type];
         arrProductsinType.forEach((product) => {
         cardContainer = document.getElementById('card-Container-'+type);
