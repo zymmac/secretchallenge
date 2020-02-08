@@ -146,6 +146,7 @@ function evaluateAreaVol() {
   $('#poolImage').css("display","none");
   $('#poolDimensions').css("display","none");
   $('#poolTitle').css("display","none");
+  $('#tabs').css("display","none");
 }
 
 // Reset Values
@@ -155,6 +156,7 @@ function resetValues() {
   $('#poolDimensions').css("display","");
   $('#poolImage').css("display","");
   $('#poolTitle').css("display","");
+  $('#tabs').css("display","");
 }
 
 // Calculate quantities
