@@ -4,6 +4,31 @@ var area;
 var volume;
 
 /////////// Functions
+//toggle checkbox typesSelection
+
+
+
+function clickCheckBoxTypes(obj) {
+  var type = $(obj).val();
+  var boolChecked = $(obj).is(":checked")
+  console.log("type: " + type + ". boolChecked: "+ boolChecked );
+  addOrRemove(type, boolChecked);
+  initTaskVariations(type, boolChecked);
+  getID();
+  initTaskCards(type, boolChecked);
+};
+
+function calculateAll() {
+  evaluateAreaVol();
+  showProducts();
+  quantify();
+}
+
+function uncheckSelections () {
+    $(":checked").each(function() {
+        $(this).prop("checked",false);
+    });
+};
 
 // Change Active Tab
 $(function() {
@@ -20,7 +45,6 @@ function addAllByType() {
   for (type in objTypes) {
     addByType(type);
   }
-  console.log(objTypes);
   allProducts = Object.assign({}, objTypes)
   for (type in allProducts) {
     removeByType(type);
@@ -40,9 +64,9 @@ function removeByType(type) {
 }
 
   // Checkbox OnChange addByType or removeByType functions if checked
-function addOrRemove(obj) {
-  var type = $(obj).val();
-  if($(obj).is(":checked")) {
+function addOrRemove(type, boolChecked) {
+
+  if(boolChecked) {
     addByType(type);
   } else {
     removeByType(type);
@@ -52,12 +76,12 @@ function addOrRemove(obj) {
 
 // Show type selections and display products
 function showProducts() {
-  $("#jumbo-Container").css("display","block");
+  // $("#jumbo-Container").css("display","block");
   $("#typesSelection").css("display","block");
 }
 
 function hideProducts() {
-  $("#jumbo-Container").css("display","none");
+  // $("#jumbo-Container").css("display","none");
   $("#typesSelection").css("display","none");
 }
 
@@ -161,13 +185,26 @@ function evaluateAreaVol() {
 }
 
 // Reset Values
-function resetValues() {
+function resetPage() {
   $('.form-control').val("")
   $('#resultJumbotron').css("display",'none');
   $('#poolDimensions').css("display","");
   $('#poolImage').css("display","");
   $('#poolTitle').css("display","");
   $('#tabs').css("display","");
+  hideProducts();
+  clearProducts();
+  uncheckSelections();
+}
+
+
+// Clear ObjDisplay and objTypes -> start over again
+function clearProducts() {
+  for (type in objTypes) {
+    objTypes[type] = [];
+    objDisplay[type] = [];
+  };
+  $('#jumbo-Container').html("");
 }
 
 // Calculate quantities
@@ -245,17 +282,15 @@ var arrKinds = ['material',
 function uniqueVariations() {
 
   for (type in objVariations) {
-    // objVariations[type] = {};
     arrKinds.forEach(kind => {
       objVariations[type][kind] = [];
-      for (productKey in objTypes[type]) {
-        if(objVariations[type][kind].indexOf(objTypes[type][productKey][kind]) === -1) {
-          objVariations[type][kind].push(objTypes[type][productKey][kind]);
+      for (productKey in allProducts[type]) {
+        if(objVariations[type][kind].indexOf(allProducts[type][productKey][kind]) === -1) {
+          objVariations[type][kind].push(allProducts[type][productKey][kind]);
         };
       };
     });
   };
-  console.log(objVariations);
 }
 
 
@@ -276,7 +311,7 @@ var variationsContainer;
 let createTaskKindForm = (type, kind) => {
 
   var p = document.createElement("p");
-  p.id = "kindTitle";
+  p.id = "title-"+kind;
 
   var strong = document.createElement("strong");
   strong.innerText = kind;
@@ -322,13 +357,6 @@ function removeVariations(type, kind, variation) {
   }
 }
 
-// function addVariations(type, kind, variation) {
-//   for (var i = 0; i < listProducts.length; i++) {
-//     if (listProducts[i][kind] === variation) {
-//       objTypes[type].push(listProducts[i]);
-//     }
-//   }
-// }
 
 // Create Cards of Products
 
@@ -339,6 +367,7 @@ let createTaskJumbo = (type) => {
 
   let divJumbo = document.createElement('div');
   divJumbo.className = "jumbotron";
+  divJumbo.id = "jumbo-"+type;
 
   var title = document.createElement("h1");
   title.innerText = type;
@@ -396,39 +425,32 @@ let createTaskCard = (product) => {
 
 }
 
-let initTaskVariations = () => {
+let initTaskVariations = (type, boolChecked) => {
     // Delete All Cards
-    $('#jumbo-Container').html("");
-    var boolButton = true;
+    if(!boolChecked){
+    $('#jumbo-'+type).remove();
+    } else {
     // Create cards from listProducts
     jumboContainer = document.getElementById('jumbo-Container');
-    for (type in objTypes) {
-      if (objTypes[type].length > 0) {
+    // for (type in allProducts) {
+      // if (allProducts[type].length > 0) {
         createTaskJumbo(type);
         arrKinds.forEach(kind => {
           variationsContainer = document.getElementById("variations-"+type)
           if(objVariations[type][kind].length > 1) {
 
             createTaskKindForm(type, kind);
-            boolButton = true;
           };
         });
-        // if(boolButton) {
-        // var button = document.createElement("button");
-        // button.className = "btn btn-primary";
-        // button.innerText = "Show Products";
-        // button.id = "button-"+type;
-        //
-        // variationsContainer.appendChild(button);
-        // boolButton = false;
-        // }
-      }
-    }
-
+      // }
+    // }
+  }
 };
 
-let initTaskCards = (type) => {
-    $('#card-Container-'+type).html("");
+let initTaskCards = (type, boolChecked) => {
+    if(!boolChecked){
+    $('#card-Container-'+type).remove();
+  } else {
     // for (type in objTypes) {
       if (objTypes[type].length > 0) {
         var arrProductsinType = objTypes[type];
@@ -438,6 +460,7 @@ let initTaskCards = (type) => {
         });
       }
     // }
+  }
 };
 
 
@@ -474,3 +497,12 @@ function iterateRemoveVariations(type) {
 }
 
 addAllByType();
+uniqueVariations();
+
+function showStates() {
+  console.log(objTypes);
+  console.log(allProducts);
+  console.log(objVariations);
+  console.log(objDisplay);
+}
+showStates();
