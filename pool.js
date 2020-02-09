@@ -245,6 +245,17 @@ function uniqueVariations() {
   console.log(objVariations);
 }
 
+
+function getProperties() {
+    arr = $(this).prop("id").split("-");
+    var x = arr.pop();
+    x = x.slice(0,x.length-1);
+    arr.push(x);
+    arr.push($(this).val());
+    return arr;
+}
+
+
 // task create radio forms for variations
 
 var variationsContainer;
@@ -288,13 +299,21 @@ let createTaskKindForm = (type, kind) => {
 
 
 // Toggle variations
-function toggleVariations(type, kind, variation) {
+function removeVariations(type, kind, variation) {
   for (var i = 0; i < objTypes[type].length; i++) {
     if (objTypes[type][i][kind] !== variation) {
       objTypes[type].splice(i, 1);
+      i = i - 1
     }
   }
-  // initTaskCards();
+}
+
+function addVariations(type, kind, variation) {
+  for (var i = 0; i < listProducts.length; i++) {
+    if (listProducts[i][kind] === variation) {
+      objTypes[type].push(listProducts[i]);
+    }
+  }
 }
 
 // Create Cards of Products
@@ -380,13 +399,15 @@ let initTaskVariations = () => {
             boolButton = true;
           };
         });
-        if(boolButton) {
-        var button = document.createElement("button");
-        button.className = "btn btn-primary";
-        button.innerText = "Show Products";
-        variationsContainer.appendChild(button)
-        boolButton = false;
-        }
+        // if(boolButton) {
+        // var button = document.createElement("button");
+        // button.className = "btn btn-primary";
+        // button.innerText = "Show Products";
+        // button.id = "button-"+type;
+        //
+        // variationsContainer.appendChild(button);
+        // boolButton = false;
+        // }
       }
     }
 
@@ -405,4 +426,24 @@ let initTaskCards = () => {
     }
 };
 
+// $(document).ready(function() {
+//   $(':radio').click(function() {
+//       var id = $(this).attr('id');
+//       console.log(id);
+//     });
+// });
+
+function getID() {
+  $(document).ready(function() {
+    $(':radio').click(function() {
+        var variation = $(this).attr('value');
+        tempArr = $(":radio:checked").attr("id").split("-")
+        var kind = tempArr[1].slice(0,tempArr[1].length - 1)
+        var type = tempArr[0]
+        console.log(variation);
+        console.log(kind);
+        console.log(type);
+      });
+  });
+}
 // initTaskCards();
