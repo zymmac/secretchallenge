@@ -188,19 +188,9 @@ class Product {
     this.volume = volume;
     this.type = type;
   }
-
-  createVariations(key,arr) {
-    this[key] = arr[0];
-    for (var i = 1; i < arr.length; i++) {
-      var newVariation = Object.create(this);
-      newVariation[key] = arr[i];
-      listProducts.push(newVariation);
-    }
-  }
 }
 
 //
-
 listProducts.push(new Product("Led Light", 40, "products_img/LED_Light_ABS_37_blu.png","ABS","37 LED", "blue",6,undefined,"Lighting"));
 listProducts.push(new Product("Led Light", 45, "products_img/LED_Light_ABS_37_blu.png","Stainless steel","37 LED", "blue",6,undefined,"Lighting"));
 listProducts.push(new Product("Led Light", 40, "products_img/LED_Light_ABS_37_blu.png","ABS","37 LED", "RGB",6,undefined,"Lighting"));
@@ -211,6 +201,7 @@ listProducts.push(new Product("Led Light", 60, "products_img/LED_Light_ABS_37_bl
 listProducts.push(new Product("Led Light", 65, "products_img/LED_Light_ABS_37_blu.png","Stainless steel","70 LED", "RGB",6,undefined,"Lighting"));
 listProducts.push(new Product("Plastico Bolha", 10, "products_img/LED_Light_ABS_37_blu.png","Plastico","300 micra", "blue",1,undefined,"Heaters"));
 listProducts.push(new Product("Bomba A", 300, "products_img/LED_Light_ABS_37_blu.png",undefined,"2 HP",undefined,undefined,24,"Filter"));
+listProducts.push(new Product("Bomba A", 400, "products_img/LED_Light_ABS_37_blu.png",undefined,"4 HP",undefined,undefined,24,"Filter"));
 
 // Type Object
 
@@ -279,6 +270,7 @@ let createTaskKindForm = (type, kind) => {
     input.name = type+"-"+kind;
     input.id = type+"-"+kind+i;
     input.className = "custom-control-input";
+    input.value = objVariations[type][kind][i];
 
     var label = document.createElement("label");
     label.className = "custom-control-label"
@@ -295,6 +287,15 @@ let createTaskKindForm = (type, kind) => {
 }
 
 
+// Toggle variations
+function toggleVariations(type, kind, variation) {
+  for (var i = 0; i < objTypes[type].length; i++) {
+    if (objTypes[type][i][kind] !== variation) {
+      objTypes[type].splice(i, 1);
+    }
+  }
+  // initTaskCards();
+}
 
 // Create Cards of Products
 
@@ -362,20 +363,39 @@ let createTaskCard = (product) => {
 
 }
 
-let initTaskCards = () => {
+let initTaskVariations = () => {
     // Delete All Cards
     $('#jumbo-Container').html("");
+    var boolButton = true;
     // Create cards from listProducts
     jumboContainer = document.getElementById('jumbo-Container');
     for (type in objTypes) {
       if (objTypes[type].length > 0) {
         createTaskJumbo(type);
         arrKinds.forEach(kind => {
+          variationsContainer = document.getElementById("variations-"+type)
           if(objVariations[type][kind].length > 1) {
-            variationsContainer = document.getElementById("variations-"+type)
+
             createTaskKindForm(type, kind);
+            boolButton = true;
           };
         });
+        if(boolButton) {
+        var button = document.createElement("button");
+        button.className = "btn btn-primary";
+        button.innerText = "Show Products";
+        variationsContainer.appendChild(button)
+        boolButton = false;
+        }
+      }
+    }
+
+};
+
+let initTaskCards = () => {
+    $('#card-Container').html("");
+    for (type in objTypes) {
+      if (objTypes[type].length > 0) {
         var arrProductsinType = objTypes[type];
         arrProductsinType.forEach((product) => {
         cardContainer = document.getElementById('card-Container-'+type);
@@ -385,4 +405,4 @@ let initTaskCards = () => {
     }
 };
 
-initTaskCards();
+// initTaskCards();
