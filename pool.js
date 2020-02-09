@@ -427,9 +427,9 @@ let initTaskVariations = () => {
 
 };
 
-let initTaskCards = () => {
-    $('#card-Container').html("");
-    for (type in objTypes) {
+let initTaskCards = (type) => {
+    $('#card-Container-'+type).html("");
+    // for (type in objTypes) {
       if (objTypes[type].length > 0) {
         var arrProductsinType = objTypes[type];
         arrProductsinType.forEach((product) => {
@@ -437,15 +437,9 @@ let initTaskCards = () => {
         createTaskCard(product);
         });
       }
-    }
+    // }
 };
 
-// $(document).ready(function() {
-//   $(':radio').click(function() {
-//       var id = $(this).attr('id');
-//       console.log(id);
-//     });
-// });
 
 function getID() {
   $(document).ready(function() {
@@ -456,6 +450,8 @@ function getID() {
         var type = tempArr[0]
         objDisplay[type][kind] = variation;
         console.log(objDisplay);
+        iterateRemoveVariations(type);
+        initTaskCards(type);
       });
   });
 }
