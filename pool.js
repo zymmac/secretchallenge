@@ -448,10 +448,12 @@ let initTaskVariations = (type, boolChecked) => {
 };
 
 let initTaskCards = (type, boolChecked) => {
+    console.log("type: "+ type + ". boolean: " + boolChecked)
     if(!boolChecked){
     $('#card-Container-'+type).remove();
   } else {
     // for (type in objTypes) {
+      $('#card-Container-'+type).html("");
       if (objTypes[type].length > 0) {
         var arrProductsinType = objTypes[type];
         arrProductsinType.forEach((product) => {
@@ -474,7 +476,8 @@ function getID() {
         objDisplay[type][kind] = variation;
         console.log(objDisplay);
         iterateRemoveVariations(type);
-        initTaskCards(type);
+        console.log("inside getID. Type :" + type);
+        initTaskCards(type, true);
       });
   });
 }
