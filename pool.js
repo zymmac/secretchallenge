@@ -16,6 +16,17 @@ $(function() {
 });
 
   // Add or Remove Products to listProducts by tag
+function addAllByType() {
+  for (type in objTypes) {
+    addByType(type);
+  }
+  console.log(objTypes);
+  allProducts = Object.assign({}, objTypes)
+  for (type in allProducts) {
+    removeByType(type);
+  }
+}
+
 function addByType(type) {
   for (var i = 0; i < listProducts.length; i++) {
     if (listProducts[i].type === type) {
@@ -203,6 +214,8 @@ listProducts.push(new Product("Plastico Bolha", 10, "products_img/LED_Light_ABS_
 listProducts.push(new Product("Bomba A", 300, "products_img/LED_Light_ABS_37_blu.png",undefined,"2 HP",undefined,undefined,24,"Filter"));
 listProducts.push(new Product("Bomba A", 400, "products_img/LED_Light_ABS_37_blu.png",undefined,"4 HP",undefined,undefined,24,"Filter"));
 
+var allProducts;
+
 // Type Object
 
 var objTypes = {
@@ -300,6 +313,7 @@ let createTaskKindForm = (type, kind) => {
 
 // Toggle variations
 function removeVariations(type, kind, variation) {
+
   for (var i = 0; i < objTypes[type].length; i++) {
     if (objTypes[type][i][kind] !== variation) {
       objTypes[type].splice(i, 1);
@@ -308,13 +322,13 @@ function removeVariations(type, kind, variation) {
   }
 }
 
-function addVariations(type, kind, variation) {
-  for (var i = 0; i < listProducts.length; i++) {
-    if (listProducts[i][kind] === variation) {
-      objTypes[type].push(listProducts[i]);
-    }
-  }
-}
+// function addVariations(type, kind, variation) {
+//   for (var i = 0; i < listProducts.length; i++) {
+//     if (listProducts[i][kind] === variation) {
+//       objTypes[type].push(listProducts[i]);
+//     }
+//   }
+// }
 
 // Create Cards of Products
 
@@ -437,13 +451,30 @@ function getID() {
   $(document).ready(function() {
     $(':radio').click(function() {
         var variation = $(this).attr('value');
-        tempArr = $(":radio:checked").attr("id").split("-")
+        tempArr = $(this).attr("id").split("-")
         var kind = tempArr[1].slice(0,tempArr[1].length - 1)
         var type = tempArr[0]
-        console.log(variation);
-        console.log(kind);
-        console.log(type);
+        objDisplay[type][kind] = variation;
+        console.log(objDisplay);
       });
   });
 }
-// initTaskCards();
+
+var objDisplay = {
+  Lighting: {},
+  Cleaning: {},
+  Filter: {},
+  WaterCare: {},
+  Heaters: {}
+};
+
+function iterateRemoveVariations(type) {
+  objTypes[type] = allProducts[type].slice(0, allProducts[type].length);
+  for (key in objDisplay[type]) {
+    var kind = key
+    var variation = objDisplay[type][key]
+    removeVariations(type, kind, variation)
+  }
+}
+
+addAllByType();
