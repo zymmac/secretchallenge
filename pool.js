@@ -9,11 +9,29 @@ var longLength;
 var shallowDepth;
 var deepDepth;
 var diameter;
+var format;
 
 /////////// Functions
 //toggle checkbox typesSelection
+function largestLength() {
+  switch (format) {
+    case "Round":
+      return Number(diameter);
+      break;
+    case "Rectangular":
+      return Math.hypot(width, length);
+      break;
+    case "Oval":
+      return Number(longLength);
+    default:
+      return -1;
+      break;
+  }
+}
 
-
+function numberWithCommas(n) {
+    return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
 
 function clickCheckBoxTypes(obj) {
   var type = $(obj).val();
@@ -184,7 +202,7 @@ function evaluateAreaVol() {
   volume = eval(volumeFunc);
 
   $('#formatArea').text((Math.round(area)*100)/100);
-  $('#formatVolume').text(Math.round(volume)*1000);
+  $('#formatVolume').text(numberWithCommas(Math.round(volume)*1000));
   $('#resultJumbotron').css("display",'block');
   $('#poolImage').css("display","none");
   $('#poolDimensions').css("display","none");
@@ -223,8 +241,10 @@ function quantify() {
     for (productKey in listProducts){
       product = listProducts[productKey];
       if (product.area) {
+        product.area = eval(product.area)
         product.quantity = (area / product.area);
       } else if (product.volume) {
+        product.volume = eval(product.volume)
         product.quantity = (volume / product.volume);
       };
     };
@@ -252,18 +272,18 @@ let price = 99.99;
 let inf = Number.MAX_SAFE_INTEGER;
 
 // listProducts.push(new Product(name, price, "products_img/, material, model, color, area, volume, type));
-listProducts.push(new Product("Algaecide", 5.45, "products_img/algaecide_1l.png", undefined, undefined, undefined, undefined, volume, "WaterCare"));
-listProducts.push(new Product("Algaecide", 21.90, "products_img/algaecide_5l.png", undefined, undefined, undefined, undefined, volume, "WaterCare"));
-listProducts.push(new Product("All-in-one Pool Care Kit", 8.90, "products_img/all_in_one_pool_care_kit.png", undefined, undefined, undefined, inf, undefined, "WaterCare"));
-listProducts.push(new Product("Chlorine", 40, "products_img/chlorine_granular_10kg.jpg", undefined, undefined, undefined, undefined, volume, "WaterCare"));
-listProducts.push(new Product("Chlorine", 12, "products_img/chlorine_tablets_200g.jpg", undefined, undefined, undefined, undefined, volume, "WaterCare"));
-listProducts.push(new Product("Control Box RGB", 54.90, "products_img/control_box_RGB.png", undefined, undefined, "RGB", inf, undefined, "Lighting"));
-listProducts.push(new Product("Flocculant", 4.90, "products_img/flocculant_1l.png", undefined, undefined, undefined, undefined, volume, "WaterCare"));
-listProducts.push(new Product("Flocculant", 23.15, "products_img/flocculant_5l.jpg", undefined, undefined, undefined, undefined, volume, "WaterCare"));
-listProducts.push(new Product("Handle Brush", 10, "products_img/handle_brush_plastic.png", "plastic", undefined, undefined, inf, undefined, "Cleaning"));
-listProducts.push(new Product("Hose", 1.90, "products_img/hose.png", undefined, undefined, undefined, area, undefined, "Cleaning"));
-listProducts.push(new Product("Leaf Skimmer", 8.70, "products_img/leaf_skimmer_metal.png", "plastic", undefined, undefined, inf, undefined, "Cleaning"));
-listProducts.push(new Product("Leaf Skimmer", 12.90, "products_img/leaf_skimmer_metal.png", "aluminium alloy", undefined, undefined, inf, undefined, "Cleaning"));
+listProducts.push(new Product("Algaecide", 5.45, "products_img/algaecide_1l.png", undefined, undefined, undefined, undefined, (1 / 0.02), "WaterCare"));
+listProducts.push(new Product("Algaecide", 21.99, "products_img/algaecide_5l.png", undefined, undefined, undefined, undefined, (5 / 0.02), "WaterCare"));
+listProducts.push(new Product("All-in-one Pool Care Kit", 8.99, "products_img/all_in_one_pool_care_kit.png", undefined, undefined, undefined, inf, undefined, "WaterCare"));
+listProducts.push(new Product("Chlorine", 40, "products_img/chlorine_granular_10kg.jpg", undefined, undefined, undefined, undefined, (10 / 0.36), "WaterCare"));
+listProducts.push(new Product("Chlorine", 12, "products_img/chlorine_tablets_200g.jpg", undefined, undefined, undefined, undefined, (0.2 / 0.36), "WaterCare"));
+listProducts.push(new Product("Control Box RGB", 54.95, "products_img/control_box_RGB.png", undefined, undefined, "RGB", "area", undefined, "Lighting"));
+listProducts.push(new Product("Flocculant", 4.90, "products_img/flocculant_1l.png", undefined, undefined, undefined, undefined, (1 / 0.02), "WaterCare"));
+listProducts.push(new Product("Flocculant", 23.15, "products_img/flocculant_5l.jpg", undefined, undefined, undefined, undefined,(5 / 0.02), "WaterCare"));
+listProducts.push(new Product("Handle Brush", 10, "products_img/handle_brush_plastic.png", "plastic", undefined, undefined, "area", undefined, "Cleaning"));
+listProducts.push(new Product("Hose", 1.99, "products_img/hose.png", undefined, undefined, undefined, "area / Math.hypot(largestLength()+1, deepDepth)", undefined, "Cleaning"));
+listProducts.push(new Product("Leaf Skimmer", 8.79, "products_img/leaf_skimmer_metal.png", "plastic", undefined, undefined, "area", undefined, "Cleaning"));
+listProducts.push(new Product("Leaf Skimmer", 12.95, "products_img/leaf_skimmer_metal.png", "aluminium alloy", undefined, undefined, "area", undefined, "Cleaning"));
 listProducts.push(new Product("LED Light", 45, "products_img/LED_pool_light_LED37_RGB_abs.png", "ABS", "LED 37", "RGB", 4, undefined, "Lighting"));
 listProducts.push(new Product("LED Light", 55, "products_img/LED_pool_light_61pratic_RGB_abs.png", "ABS", "61 Pratic", "RGB", 6, undefined, "Lighting"));
 listProducts.push(new Product("LED Light", 40, "products_img/LED_pool_light_LED37_blue_abs.png", "ABS", "LED 37", "blue", 4, undefined, "Lighting"));
@@ -280,16 +300,16 @@ listProducts.push(new Product("Sand Filter", 109, "products_img/sand_filter_DFR1
 listProducts.push(new Product("Sand Filter", 119, "products_img/sand_filter_DFR19.png", undefined, undefined, undefined, undefined, volume, "Filter"));
 listProducts.push(new Product("Sand Filter", 129, "products_img/sand_filter_DFR22.png", undefined, undefined, undefined, undefined, volume, "Filter"));
 listProducts.push(new Product("Sand Filter", 140, "products_img/sand_filter_DFR24.png", undefined, undefined, undefined, undefined, volume, "Filter"));
-listProducts.push(new Product("Sand", 5.50, "products_img/sand.jpg", undefined, undefined, undefined, undefined, volume, "Filter"));
-listProducts.push(new Product("Solar Controller", 42, "products_img/solar_controller.jpg", undefined, undefined, undefined, inf, undefined, "Heaters"));
+listProducts.push(new Product("Sand", 5.59, "products_img/sand.jpg", undefined, undefined, undefined, undefined, volume, "Filter"));
+listProducts.push(new Product("Solar Controller", 42, "products_img/solar_controller.jpg", undefined, undefined, undefined, "area", undefined, "Heaters"));
 listProducts.push(new Product("Solar Panels", 10, "products_img/solar_panels.jpg", undefined, undefined, undefined, 3, undefined, "Heaters"));
 listProducts.push(new Product("Solar Pool Cover", 4, "products_img/solar_pool_cover_black_4mil.png", undefined, "4mil", "black", 1, undefined, "Heaters"));
 listProducts.push(new Product("Solar Pool Cover", 7, "products_img/solar_pool_cover_black_8mil.jpg", undefined, "8mil", "black", 1, undefined, "Heaters"));
 listProducts.push(new Product("Solar Pool Cover", 4, "products_img/solar_pool_cover_blue_4mil.jpg", undefined, "4mil", "blue", 1, undefined, "Heaters"));
 listProducts.push(new Product("Solar Pool Cover", 7, "products_img/solar_pool_cover_blue_8mil.jpg", undefined, "8mil", "blue", 1, undefined, "Heaters"));
-listProducts.push(new Product("Telescopic Pole", 3, "products_img/telescopic_pole.png", undefined, undefined, undefined, area, undefined, "Cleaning"));
-listProducts.push(new Product("Vacuum Head", 12, "products_img/vacuum_head_3wheels.jpg", undefined, undefined, undefined, area, undefined, "Cleaning"));
-listProducts.push(new Product("Vacuum Head", 39, "products_img/vacuum_head_16wheel_olympic.jpg", undefined, undefined, undefined, area, undefined, "Cleaning"));
+listProducts.push(new Product("Telescopic Pole", 3, "products_img/telescopic_pole.png", undefined, undefined, undefined, "area / Math.hypot(largestLength() + 1,deepDepth)", undefined, "Cleaning"));
+listProducts.push(new Product("Vacuum Head", 12, "products_img/vacuum_head_3wheels.jpg", undefined, undefined, undefined, "if(area<1250){area}else{Infinity}" , undefined, "Cleaning"));
+listProducts.push(new Product("Vacuum Head", 39, "products_img/vacuum_head_16wheel_olympic.jpg", undefined, undefined, undefined, "area", undefined, "Cleaning"));
 listProducts.push(new Product("Water Pump", 250, "products_img/water_pump_pf17.png", undefined, undefined, undefined, undefined, volume, "Filter"));
 listProducts.push(new Product("Water Pump", 300, "products_img/water_pump_pf22.png", undefined, undefined, undefined, undefined, volume, "Filter"));
 
