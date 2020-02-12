@@ -294,43 +294,49 @@ function resetVariables() {
 
 //////////////////// ARRAYS AND OBJECTS /////////////////////////////////
 
-function structureTypeSubtype(obj) {
-  for (var i = 0; i < arrListProducts.length; i++) {
-
-    type = arrListProducts[i].type;
-    subtype = arrListProducts[i].subtype;
-
+function structureObj(obj, structure) {
+  arrListProducts.forEach(product => {
+    type = product.type;
+    subtype = product.subtype;
     if(!obj.hasOwnProperty(type)) {
       obj[type] = {};
     }
     if(!obj[type].hasOwnProperty(subtype)) {
-      obj[type][subtype] = [];
+      if(structure === "{}") {
+       obj[type][subtype] = {};
+     } else {
+        obj[type][subtype] = [];
+      }
     };
-  };
+  });
 };
 
 function fillObjAllProducts() {
-  for (var i = 0; i < arrListProducts.length; i++) {
-    product = arrListProducts[i]
-
+  structureObj(objAllProducts,[]);
+  arrListProducts.forEach(product => {
     type = product.type;
     subtype = product.subtype;
-
-    if(!objAllProducts.hasOwnProperty(type)) {
-      objAllProducts[type] = {};
-    }
-    if(!objAllProducts[type].hasOwnProperty(subtype)) {
-      objAllProducts[type][subtype] = [];
-    };
-    objAllProducts[type][subtype].push(product)
-  };
+    objAllProducts[type][subtype].push(product);
+  });
+  console.log(objAllProducts);
 };
 
-
+function structureObjVariations() {
+  structureObj(objVariations, "{}");
+  arrKinds.forEach(kind => {
+    for (type in objVariations) {
+      for (subtype in objVariations[type]) {
+        objVariations[type][subtype][kind] = ""
+      }
+    }
+  });
+  console.log(objVariations);
+}
 
 function addToObjDisplay() {
   objDisplay = Object.assign({}, objAllProducts);
 }
+
 
 function quantify() {
   // Calculate quantities and add to attr arrListProducts.quantity
