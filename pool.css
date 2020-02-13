@@ -55,6 +55,20 @@ h1{
   display: inline;
 }
 
-/* .row{
-  display: inline-block;
-} */
+#kindtitle{
+  display: inline;
+  margin-right: 10px;
+  text-align: center;
+}
+
+.custom-radio{
+  margin-bottom: 5px;
+}
+
+hr{
+  color: black 2px solid;
+}
+
+.centered-form{
+  display: block;
+}

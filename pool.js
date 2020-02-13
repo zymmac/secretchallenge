@@ -506,7 +506,7 @@ var jumboContainer;
 var subtypeContainer;
 var variationsContainer;
 var cardContainer;
-
+var deckContainer;
 
 
 
@@ -534,11 +534,14 @@ let createTaskJumbo = (type) => {
   title.innerText = type;
   title.className = "mb-2";
 
+  var hr = document.createElement('hr')
+
   var divSubtype = document.createElement('div');
   divSubtype.id = type+"-Container";
 
   jumboContainer.appendChild(divJumbo);
   divJumbo.appendChild(title);
+  divJumbo.appendChild(hr)
   divJumbo.appendChild(divSubtype);
 
 }
@@ -567,14 +570,21 @@ let createTaskSubtypes = (type, subtype) => {
   var nameSubtype = document.createElement("h3");
   nameSubtype.innerText = subtype;
 
+  var hr = document.createElement('hr')
+
   var divVariations = document.createElement("div")
   divVariations.id = type + "-" + subtype + "-variations-Container"
+  divVariations.className = "centered-form"
+
+  var hr2 = document.createElement('hr')
 
   var divCards = document.createElement("div")
   divCards.id = type + "-" + subtype + "-cards-Container"
 
   subtypeContainer.appendChild(nameSubtype);
+  subtypeContainer.appendChild(hr)
   subtypeContainer.appendChild(divVariations);
+  subtypeContainer.appendChild(hr2)
   subtypeContainer.appendChild(divCards);
 
 }
@@ -585,7 +595,8 @@ let createTaskVariations = (type, subtype, kind) => {
   var strong = document.createElement("strong");
 
   var p = document.createElement("p");
-  p.innerText = kind;
+  p.innerText = kind + ": ";
+  p.id = "kindtitle"
 
   variationsContainer.appendChild(strong);
   strong.appendChild(p);
@@ -619,36 +630,63 @@ let createTaskVariations = (type, subtype, kind) => {
   variationsContainer.appendChild(br);
 }
 
+
+
+
+
 let initTaskCards = (type) => {
 
   for (subtype in objDisplay[type]) {
     cardContainer = document.getElementById(type + "-" + subtype + "-cards-Container")
+
+    createTaskDeck(type, subtype);
+    deckContainer = document.getElementById(type + "-" + subtype + "-row")
     objDisplay[type][subtype].forEach(product => {
       createTaskCard(product);
     });
   };
 };
 
+
+
+
 let refreshTaskCards = (type, subtype) => {
   document.getElementById(type + "-" + subtype + "-cards-Container").innerHTML = "";
-  cardContainer = document.getElementById(type + "-" + subtype + "-cards-Container");
+  cardContainer = document.getElementById(type + "-" + subtype + "-cards-Container")
+  createTaskDeck(type, subtype);
+  deckContainer = document.getElementById(type + "-" + subtype + "-row")
   objDisplay[type][subtype].forEach(product => {
     createTaskCard(product);
   });
 };
 
-// task create cards
-let createTaskCard = (product) => {
+
+
+
+let createTaskDeck = (type, subtype) => {
 
   let cardDeck = document.createElement("div");
   cardDeck.className = "card-deck";
 
   let row = document.createElement("div");
   row.className = "row";
-  row.id = type+"-"+subtype+"-card-Container-";
+  row.id = type + "-" + subtype + "-row";
+
+  cardContainer.appendChild(cardDeck);
+  cardDeck.appendChild(row);
+
+}
+
+
+
+
+
+
+// task create cards
+let createTaskCard = (product) => {
 
   let grid = document.createElement('div');
-  grid.className = 'col col-6 col-sm-4 col-md-3 col-lg-2 mb-3';
+  grid.className = 'col col-3 mb-3';
 
   let card = document.createElement('div');
   card.className = 'card';
@@ -664,18 +702,22 @@ let createTaskCard = (product) => {
   title.innerText = product.name;
   title.className = 'card-title';
 
+  let model = document.createElement('p')
+  model.innerText = ""
+  if(product.model) {model.innerText += "["+ product.model + "]"}
+  if(product.material) {model.innerText += "["+ product.material + "]"}
+  if(product.color) {model.innerText += "["+ product.color + "]"}
+
   let price = document.createElement('p');
   price.innerText = Math.ceil(product.quantity)+"x "+ product.price+"€";
   price.className = 'card-text';
 
-
-    cardContainer.appendChild(cardDeck);
-    cardDeck.appendChild(row);
-    row.appendChild(grid);
+    deckContainer.appendChild(grid);
     grid.appendChild(card);
     card.appendChild(image);
     card.appendChild(cardBody);
     cardBody.appendChild(title);
+    cardBody.appendChild(model);
     cardBody.appendChild(price);
 
 }
