@@ -256,6 +256,7 @@ function clickCheckBoxTypes(obj) {
   if (boolChecked) {
     initTaskVariations(type);
     initTaskCards(type);
+    setOnClickRadioFunc();
   }
 
   // initTaskCards(type, boolChecked);
@@ -267,15 +268,17 @@ function setOnClickRadioFunc() {
   // get attributes from radio input clicked and store in variables get+[type, kind and variation]
   $(document).ready(function() {
     $(':radio').click(function() {
-        var getVariation = $(this).attr('value');
-        tempArr = $(this).attr("id").split("-");
-        var getKind = tempArr[2].slice(0,tempArr[2].length - 1);
-        var getType = tempArr[0];
-        var getSubtype = tempArr[1];
-        variationSelectedByRadio();
+      getVariation = $(this).attr('value');
+      tempArr = $(this).attr("id").split("-");
+      getKind = tempArr[2].slice(0,tempArr[2].length - 1);
+      getType = tempArr[0];
+      getSubtype = tempArr[1];
+      console.log("clicked in "+getVariation);
+      variationSelectedByRadio();
+      fillObjDisplay();
+      refreshTaskCards(getType, getSubtype);
     });
   });
-
 }
 
 
@@ -358,30 +361,26 @@ function fillObjVariations() {
 function fillObjDisplay() {
   objDisplay = {};
   structureObj(objDisplay,"[]");
-  arrListProducts.forEach(product => {
-    type = product.type;
-    subtype = product.subtype;
-    for (var i = 0; i < arrKinds.length; i++) {
-      kind = arrKinds[i];
-      variation = product[kind];
-      variationSelected = objVariations[type][subtype][kind];
-      // console.log(variationSelected);
-      // console.log(product);
-      // console.log(!variation);
-      // console.log(Array.isArray(variationSelected));
-      // console.log((variationSelected === variation));
-      if ((!variation) || Array.isArray(variationSelected) || (variationSelected === variation)) {
-        if (objDisplay[type][subtype].indexOf(product) === -1) {
-          objDisplay[type][subtype].push(product);
-          // console.log("Added");
-        }
-      }
-      break;
-    };
-  });
-  // objDisplay = JSON.parse(JSON.stringify(objDisplay));
-};
 
+  for (type in objAllProducts) {
+    for (subtype in objAllProducts[type]) {
+      objAllProducts[type][subtype].forEach(product => {
+        var add = true;
+        arrKinds.forEach((kind, i) => {
+          variation = product[kind];
+          // console.log(product);
+          // console.log(!variation);
+          // console.log((objVariations[type][subtype][kind].indexOf(variation) > -1));
+          add = add * ( (!variation) || (objVariations[type][subtype][kind].indexOf(variation) > -1) )
+        });
+        if(add) {
+                      // if (objDisplay[type][subtype].indexOf(product) === -1) {
+          objDisplay[type][subtype].push(product);
+        }
+      });
+    };
+  };
+};
 
 
 
@@ -422,7 +421,7 @@ function uniqueVariations() {
 }
 
 function variationSelectedByRadio() {
-  objVariation[getType][getSubtype][getKind] = getVariation;
+  objVariations[getType][getSubtype][getKind] = getVariation;
 }
 
 
@@ -571,7 +570,7 @@ let createTaskVariations = (type, subtype, kind) => {
 
   variationsContainer.appendChild(strong);
   strong.appendChild(p);
-  
+
   for (var i = 0; i < objVariations[type][subtype][kind].length; i++) {
 
     var div = document.createElement("div");
@@ -609,6 +608,14 @@ let initTaskCards = (type) => {
       createTaskCard(product);
     });
   };
+};
+
+let refreshTaskCards = (type, subtype) => {
+  document.getElementById(type + "-" + subtype + "-cards-Container").innerHTML = "";
+  cardContainer = document.getElementById(type + "-" + subtype + "-cards-Container");
+  objDisplay[type][subtype].forEach(product => {
+    createTaskCard(product);
+  });
 };
 
 // task create cards
