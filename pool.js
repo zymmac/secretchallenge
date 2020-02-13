@@ -119,6 +119,7 @@ function getTypesSelected() {
 };
 
 function getQuotation() {
+  total = 0;
   getTypesSelected();
   result = []
   typesSelected.forEach(type => {
@@ -127,8 +128,26 @@ function getQuotation() {
     }
   });
   total = getTotal();
+  var quotation = "Here is the best deals list based on your selections and for your specific swimming pool." + "\n" + "\n";
+  result.forEach((product, i) => {
+      var line = product.quantity + "X " + product.name + ". ";
+       if (product.model) {
+         line += "[Model: " + product.model + "]"
+       };
+       if (product.color) {
+         line += "[Color: " + product.color + "]"
+       };
+       if (product.material) {
+         line += "[Material: " + product.material + "]"
+       };
+       line += "  @  " + product.price + "€ each. Subtotal: " + (product.quantity * product.price) + "€.";
+
+       quotation += line + "\n"
+  });
+  quotation += "Total is " + (Math.round(total*100) /100) + "€."
+  alert(quotation)
   console.log(result);
-  console.log(total);
+  // alert("The list of the best deals based on your selections and for your specific swimming pool is logged in the console log. The total amount is "+ total + "€. Thank you for shopping with us!" )
 }
 
 function getTotal() {
@@ -454,7 +473,6 @@ function quantify() {
 
 function uniqueVariations(type) {
   if(type === undefined) {
-    console.log("Undefined");
     arrListProducts.forEach(product => {
       type = product.type;
       subtype = product.subtype;
