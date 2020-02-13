@@ -311,37 +311,83 @@ function structureObj(obj, structure) {
   });
 };
 
+function structureObjVariations() {
+  structureObj(objVariations, "{}");
+  objVariations = JSON.parse(JSON.stringify(objVariations));
+  arrKinds.forEach(kind => {
+    for (type in objVariations) {
+      for (subtype in objVariations[type]) {
+        objVariations[type][subtype][kind] = [];
+      }
+    }
+  });
+  // console.log(objVariations);
+}
+
+
+
 function fillObjAllProducts() {
-  structureObj(objAllProducts,[]);
+  structureObj(objAllProducts,"[]");
   arrListProducts.forEach(product => {
     type = product.type;
     subtype = product.subtype;
     objAllProducts[type][subtype].push(product);
   });
-  console.log(objAllProducts);
+  // console.log(objAllProducts);
 };
 
-function structureObjVariations() {
-  structureObj(objVariations, "{}");
-  arrKinds.forEach(kind => {
-    for (type in objVariations) {
-      for (subtype in objVariations[type]) {
-        objVariations[type][subtype][kind] = ""
-      }
-    }
-  });
-  console.log(objVariations);
+
+
+
+function fillObjVariations() {
+  structureObjVariations();
+  uniqueVariations();
+  objVariations = JSON.parse(JSON.stringify(objVariations));
 }
 
-function addToObjDisplay() {
-  objDisplay = Object.assign({}, objAllProducts);
+
+
+function fillObjDisplay() {
+  objDisplay = {};
+  structureObj(objDisplay,"[]");
+  arrListProducts.forEach(product => {
+    type = product.type;
+    subtype = product.subtype;
+    for (var i = 0; i < arrKinds.length; i++) {
+      kind = arrKinds[i];
+      variation = product[kind];
+      variationSelected = objVariations[type][subtype][kind];
+      // console.log(variationSelected);
+      // console.log(product);
+      // console.log(!variation);
+      // console.log(Array.isArray(variationSelected));
+      // console.log((variationSelected === variation));
+      if ((!variation) || Array.isArray(variationSelected) || (variationSelected === variation)) {
+        if (objDisplay[type][subtype].indexOf(product) === -1) {
+          objDisplay[type][subtype].push(product);
+          // console.log("Added");
+        }
+      }
+      break;
+    };
+  });
+  objDisplay = JSON.parse(JSON.stringify(objDisplay));
+};
+
+
+
+
+function initObjects() {
+  fillObjAllProducts();
+  fillObjVariations();
+  fillObjDisplay();
 }
 
 
 function quantify() {
   // Calculate quantities and add to attr arrListProducts.quantity
   for (i in arrListProducts){
-    product = listProducts[i];
+    product = arrListProducts[i];
     if (product.area) {
       product.area = eval(product.area)
       product.quantity = (area / product.area);
@@ -354,66 +400,20 @@ function quantify() {
 
 //FUNCTION uniqueVariations
 function uniqueVariations() {
-  for (type in objVariations) {
-    for (subtype in objVariations[type]) {
-      arrKinds.forEach(kind => {
-        // objVariations[type][subtype][kind] = [];
-        for (productKey in allProducts[type][subtype]) {
-          if(objVariations[type][subtype][kind].indexOf(allProducts[type][subtype][productKey][kind]) === -1) {
-            objVariations[type][kind][subtype].push(allProducts[type][subtype][productKey][kind]);
-          }
-        };
-      });
-    };
-  };
-}
-
-// function functionName() {
-//   objVariations[getType] = {};
-//   objVariations[type][getSubtype] = getSubtype;
-//   arrKinds.forEach(kind => {
-//     for (var i = 0; i < objAllProducts[type][subtype].length; i++) {
-//       array[i]
-//     }
-//     objAllProducts[type][subtype][kind]
-// }
-
-function uniqueSubtypes() {
-  for (type in objVariations) {
-    for (productKey in allProducts[type]) {
-      subtype = allProducts[type][productKey].subtype;
-      if(objVariations[type].indexOf(subtype) === -1) {
-        objVariations[type].push(subtype);
+  arrListProducts.forEach(product => {
+    type = product.type;
+    subtype = product.subtype;
+    arrKinds.forEach(kind => {
+      // console.log(product.name+ " - "+ kind + ": " + product[kind]);
+      variation = product[kind];
+      if (objVariations[type][subtype][kind].indexOf(variation) === -1) {
+        objVariations[type][subtype][kind].push(variation);
       };
-    };
-  };
-};
-
-
-
-function getProperties() {
-    arr = $(this).prop("id").split("-");
-    var x = arr.pop();
-    x = x.slice(0,x.length-1);
-    arr.push(x);
-    arr.push($(this).val());
-    return arr;
+    });
+  });
 }
 
 
-
-
-
-// Toggle variations
-function removeVariations(type, kind, variation) {
-
-  for (var i = 0; i < objTypes[type].length; i++) {
-    if (objTypes[type][i][kind] !== variation) {
-      objTypes[type].splice(i, 1);
-      i = i - 1
-    }
-  }
-}
 
 
 
