@@ -39,6 +39,9 @@ var objVariations = {};
 
 var arrListProducts = [];
 
+var typesSelected = [];
+var result = [];
+var total = 0;
 //////////////////////////////// CLASSES /////////////////////////////////////
 
 class Product {
@@ -95,23 +98,44 @@ function shortestLengthToCenter() {
 function bestDeal(array) {
   var cheapest = Infinity;
   array.forEach((product, i) => {
-    value = (product.price * product.quantity)
-    if (value < cheapest) {
-      cheapest = value;
-      key = i;
+    if (product.quantity > 0) {
+      value = (product.price * product.quantity)
+      if (value < cheapest) {
+        cheapest = value;
+        key = i;
+      }
     }
   });
   return array[key];
 }
 
+function getTypesSelected() {
+  typesSelected = []
+  $(":checkbox:checked").each(function() {
+    id = $(this).attr("id")
+    type = id.slice(8,id.length)
+    typesSelected.push(type)
+  });
+};
+
 function getQuotation() {
-  var result = []
-  for (type in objDisplay) {
+  getTypesSelected();
+  result = []
+  typesSelected.forEach(type => {
     for (subtype in objDisplay[type]) {
       result.push(bestDeal(objDisplay[type][subtype]));
     }
-  }
+  });
+  total = getTotal();
   console.log(result);
+  console.log(total);
+}
+
+function getTotal() {
+  result.forEach(product => {
+    total += product.quantity * product.price;
+  });
+  return total;
 }
 
 function averageDepth() {
