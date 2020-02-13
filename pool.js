@@ -248,26 +248,34 @@ function hideCheckboxTypes() {
 function clickCheckBoxTypes(obj) {
   // Runs when user clicks checkbox from types
   var type = $(obj).val();
+  console.log(type);
   var boolChecked = $(obj).is(":checked")
+  console.log(boolChecked);
   // Will display products if checked or clear if unchecked
-  addOrRemove(type, boolChecked);
-  initTaskVariations(type, boolChecked);
-  initTaskCards(type, boolChecked);
+  initTaskJumbo(type, boolChecked);
+  if (boolChecked) {
+    initTaskVariations(type);
+    initTaskCards(type);
+  }
+
+  // initTaskCards(type, boolChecked);
   /// needs to run everytime variations options are shown (radio buttons)
 
 };
 
-function getRadioAttributes() {
+function setOnClickRadioFunc() {
   // get attributes from radio input clicked and store in variables get+[type, kind and variation]
   $(document).ready(function() {
     $(':radio').click(function() {
         var getVariation = $(this).attr('value');
         tempArr = $(this).attr("id").split("-");
-        var getKind = tempArr[2].slice(0,tempArr[1].length - 1);
+        var getKind = tempArr[2].slice(0,tempArr[2].length - 1);
         var getType = tempArr[0];
         var getSubtype = tempArr[1];
+        variationSelectedByRadio();
     });
   });
+
 }
 
 
@@ -371,7 +379,7 @@ function fillObjDisplay() {
       break;
     };
   });
-  objDisplay = JSON.parse(JSON.stringify(objDisplay));
+  // objDisplay = JSON.parse(JSON.stringify(objDisplay));
 };
 
 
@@ -413,41 +421,10 @@ function uniqueVariations() {
   });
 }
 
-
-
-
-
-
-
-// function removeByType(type) {
-//   objTypes[type] = [];
-// }
-
-  // Checkbox OnChange addByType or removeByType functions if checked
-// function addOrRemove(type, boolChecked) {
-//
-//   if(boolChecked) {
-//     addByType(type);
-//   } else {
-//     removeByType(type);
-//   }
-// }
-
-function displaySelectedByRadio() {
-  objDisplay[getType][getKind] = getVariation;
-  iterateRemoveVariations(getType);
-  initTaskCards(getType, true);
+function variationSelectedByRadio() {
+  objVariation[getType][getSubtype][getKind] = getVariation;
 }
 
-
-// Clear ObjDisplay and objTypes -> start over again
-// function clearProducts() {
-//   for (type in objTypes) {
-//     objTypes[type] = [];
-//     objDisplay[type] = [];
-//   };
-//   $('#jumbo-Container').html("");
-// }
 
 
 
@@ -503,7 +480,29 @@ arrListProducts.push(new Product("Water Pump", 300, "products_img/water_pump_pf2
 // Create Cards of Products
 
 var jumboContainer;
+var subtypeContainer;
+var variationsContainer;
 var cardContainer;
+
+
+
+
+
+
+
+
+
+let initTaskJumbo = (type, boolChecked) => {
+  console.log("inittaskjumbo starts");
+  console.log("variables are "+type+" " + boolChecked);
+  if(!boolChecked){
+    $('#jumbo-'+type).remove();
+  } else {
+    jumboContainer = document.getElementById('jumbo-Container');
+      console.log("will start createTaskJumbo with " + type);
+      createTaskJumbo(type);
+  };
+}
 
 let createTaskJumbo = (type) => {
 
@@ -515,91 +514,138 @@ let createTaskJumbo = (type) => {
   title.innerText = type;
   title.className = "mb-2";
 
-  var spanVariations = document.createElement('span');
-  spanVariations.id = "variations-"+type;
-
-  let cardDeck = document.createElement("div");
-  cardDeck.className = "card-deck";
-
-  let row = document.createElement("div");
-  row.className = "row";
-  row.id = "card-Container-"+type
+  var divSubtype = document.createElement('div');
+  divSubtype.id = type+"-Container";
 
   jumboContainer.appendChild(divJumbo);
   divJumbo.appendChild(title);
-  divJumbo.appendChild(spanVariations);
-  divJumbo.appendChild(cardDeck);
-  cardDeck.appendChild(row);
+  divJumbo.appendChild(divSubtype);
 
 }
-// task create radio forms for variations
 
-var variationsContainer;
 
-let createTaskKindForm = (type, kind) => {
+
+let initTaskVariations = (type) => {
+  for (subtype in objDisplay[type]) {
+    subtypeContainer = document.getElementById(type+"-Container")
+    createTaskSubtypes(type, subtype);
+
+    variationsContainer = document.getElementById(type + "-" + subtype + "-variations-Container")
+
+    arrKinds.forEach(kind => {
+      console.log(type+subtype+kind);
+      if (objVariations[type][subtype][kind].length > 1) {
+        createTaskVariations(type, subtype, kind);
+      }
+    });
+  };
+};
+
+
+
+let createTaskSubtypes = (type, subtype) => {
+
+  var nameSubtype = document.createElement("h3");
+  nameSubtype.innerText = subtype;
+
+  var divVariations = document.createElement("div")
+  divVariations.id = type + "-" + subtype + "-variations-Container"
+
+  var divCards = document.createElement("div")
+  divCards.id = type + "-" + subtype + "-cards-Container"
+
+  subtypeContainer.appendChild(nameSubtype);
+  subtypeContainer.appendChild(divVariations);
+  subtypeContainer.appendChild(divCards);
+
+}
+
+
+let createTaskVariations = (type, subtype, kind) => {
+
+  console.log("TaskVariations initiated");
+  var strong = document.createElement("strong");
 
   var p = document.createElement("p");
-  p.id = "title-"+kind;
+  p.innerText = kind;
 
-  var strong = document.createElement("strong");
-  strong.innerText = kind;
-
-  variationsContainer.appendChild(p);
-  p.appendChild(strong)
-
-  for (var i = 0; i < objVariations[type][kind].length; i++) {
+  variationsContainer.appendChild(strong);
+  strong.appendChild(p);
+  
+  for (var i = 0; i < objVariations[type][subtype][kind].length; i++) {
 
     var div = document.createElement("div");
     div.className = "custom-control custom-radio custom-control-inline";
 
     var input = document.createElement("input");
     input.type = "radio";
-    input.name = type+"-"+kind;
-    input.id = type+"-"+kind+i;
+    input.name = type+"-"+subtype+"-"+kind;
+    input.id = type+"-"+subtype+"-"+kind+i;
     input.className = "custom-control-input";
     input.value = objVariations[type][subtype][kind][i];
 
     var label = document.createElement("label");
     label.className = "custom-control-label"
     label.htmlFor = input.id;
-    label.innerText = objVariations[type][kind][i];
+    label.innerText = input.value;
+
 
     variationsContainer.appendChild(div);
     div.appendChild(input);
     div.appendChild(label);
 
   }
+
   var br = document.createElement("br");
+
   variationsContainer.appendChild(br);
 }
+
+let initTaskCards = (type) => {
+
+  for (subtype in objDisplay[type]) {
+    cardContainer = document.getElementById(type + "-" + subtype + "-cards-Container")
+    objDisplay[type][subtype].forEach(product => {
+      createTaskCard(product);
+    });
+  };
+};
 
 // task create cards
 let createTaskCard = (product) => {
 
+  let cardDeck = document.createElement("div");
+  cardDeck.className = "card-deck";
 
-    let grid = document.createElement('div');
-    grid.className = 'col col-6 col-sm-4 col-md-3 col-lg-2 mb-3';
+  let row = document.createElement("div");
+  row.className = "row";
+  row.id = type+"-"+subtype+"-card-Container-";
 
-    let card = document.createElement('div');
-    card.className = 'card';
+  let grid = document.createElement('div');
+  grid.className = 'col col-6 col-sm-4 col-md-3 col-lg-2 mb-3';
 
-    let image = document.createElement('img');
-    image.src = product.url;
-    image.className = 'card-img-top';
+  let card = document.createElement('div');
+  card.className = 'card';
 
-    let cardBody = document.createElement('div');
-    cardBody.className = 'card-body';
+  let image = document.createElement('img');
+  image.src = product.url;
+  image.className = 'card-img-top';
 
-    let title = document.createElement('h5');
-    title.innerText = product.name;
-    title.className = 'card-title';
+  let cardBody = document.createElement('div');
+  cardBody.className = 'card-body';
 
-    let price = document.createElement('p');
-    price.innerText = Math.ceil(product.quantity)+"x "+ product.price+"€";
-    price.className = 'card-text';
+  let title = document.createElement('h5');
+  title.innerText = product.name;
+  title.className = 'card-title';
+
+  let price = document.createElement('p');
+  price.innerText = Math.ceil(product.quantity)+"x "+ product.price+"€";
+  price.className = 'card-text';
 
 
-    cardContainer.appendChild(grid);
+    cardContainer.appendChild(cardDeck);
+    cardDeck.appendChild(row);
+    row.appendChild(grid);
     grid.appendChild(card);
     card.appendChild(image);
     card.appendChild(cardBody);
@@ -608,69 +654,10 @@ let createTaskCard = (product) => {
 
 }
 
-let initTaskVariations = (type, boolChecked) => {
-    // Delete All Cards
-    if(!boolChecked){
-    $('#jumbo-'+type).remove();
-    } else {
-    // Create cards from listProducts
-    jumboContainer = document.getElementById('jumbo-Container');
-    // for (type in allProducts) {
-      // if (allProducts[type].length > 0) {
-        createTaskJumbo(type);
-        arrKinds.forEach(kind => {
-          variationsContainer = document.getElementById("variations-"+type)
-          if(objVariations[type][kind].length > 1) {
-
-            createTaskKindForm(type, kind);
-          };
-        });
-      // }
-    // }
-  }
-  getRadioAttributes();
-  displaySelectedByRadio();
-};
-
-let initTaskCards = (type, boolChecked) => {
-    console.log("type: "+ type + ". boolean: " + boolChecked)
-    if(!boolChecked){
-    $('#card-Container-'+type).remove();
-  } else {
-    // for (type in objTypes) {
-      $('#card-Container-'+type).html("");
-      if (objTypes[type].length > 0) {
-        var arrProductsinType = objTypes[type];
-        arrProductsinType.forEach((product) => {
-        cardContainer = document.getElementById('card-Container-'+type);
-        createTaskCard(product);
-        });
-      }
-    // }
-  }
-};
 
 
 
 
 
 
-function iterateRemoveVariations(type) {
-  objTypes[type] = allProducts[type].slice(0, allProducts[type].length);
-  for (key in objDisplay[type]) {
-    var kind = key
-    var variation = objDisplay[type][key]
-    removeVariations(type, kind, variation)
-  }
-}
-
-// addAllByType();
-// uniqueVariations();
-
-function showStates() {
-  console.log(objTypes);
-  console.log(allProducts);
-  console.log(objVariations);
-  console.log(objDisplay);
-}
-// showStates();
+initObjects();
