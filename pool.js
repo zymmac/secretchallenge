@@ -132,6 +132,7 @@ function getQuotation() {
 }
 
 function getTotal() {
+  total = 0
   result.forEach(product => {
     total += product.quantity * product.price;
   });
