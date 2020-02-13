@@ -6,12 +6,12 @@
     <link rel="stylesheet" href="pool.css">
     <meta charset="utf-8">
 
-    <title>Title Here</title>
+    <title>Swimming Pool Equipment and Accessories</title>
   </head>
 
   <body>
     <!-- Navbar goes here -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
       <!-- <a class="navbar-brand" href="#"><img id='logo'src="https://static.wixstatic.com/media/c0a551_7a240e5dc07ee242bc4aaa525a3e9fcc.gif" alt="Acquavinil"></a> -->
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -22,12 +22,20 @@
             <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Products</a>
+            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Products</a>
           </li>
           <li class="nav-item">
             <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Contact</a>
           </li>
         </ul>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarCollapse">
+          <ul class="navbar-nav">
+            <li>
+                <div class="btn-nav"><a class="btn btn-dark btn-small navbar-btn" onclick="getQuotation()">Get Quotation!</a>
+                </div>
+            </li>
+          </ul>
+        </div>
       </div>
     </nav>
 
@@ -37,9 +45,9 @@
     <div class="container">
       <div class="jumbotron">
 
-        <h1>Welcome</h1>
-        <h2>This is a random short text</h2>
-        <h2></h2>
+        <h1>Get your pool quotation now!</h1>
+        <p>No need to send an e-mail or picking up a telephone! Just fulfill this form below with informations about your swimmimg pool and choose a category of products and we will suggest the best deals</p>
+        <p>(<strong>Attention:</strong> for water care, the quantities suggested are based in a monthly consume according to your pool volume of water)</p>
       </div>
     </div>
 

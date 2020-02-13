@@ -92,6 +92,28 @@ function shortestLengthToCenter() {
   }
 }
 
+function bestDeal(array) {
+  var cheapest = Infinity;
+  array.forEach((product, i) => {
+    value = (product.price * product.quantity)
+    if (value < cheapest) {
+      cheapest = value;
+      key = i;
+    }
+  });
+  return array[key];
+}
+
+function getQuotation() {
+  var result = []
+  for (type in objDisplay) {
+    for (subtype in objDisplay[type]) {
+      result.push(bestDeal(objDisplay[type][subtype]));
+    }
+  }
+  console.log(result);
+}
+
 function averageDepth() {
   shallowDepth = $('#measureDepS').val();
   deepDepth= $('#measureDepD').val();
@@ -192,6 +214,8 @@ function calculateButton() {
   quantify();
   // Disable calculate button
   $('#calculateBtn').addClass("disabled");
+  $('.navbar-btn').removeClass("btn-dark");
+  $('.navbar-btn').addClass("btn-success");
 }
 
 function resetButton() {
@@ -206,6 +230,8 @@ function resetButton() {
   resetVariables();
   // Enable calculate button
   $('#calculateBtn').removeClass("disabled");
+  $('.navbar-btn').addClass("btn-dark");
+  $('.navbar-btn').removeClass("btn-success");
 }
 
 function displayResults() {
@@ -279,8 +305,6 @@ function setOnClickRadioFunc() {
   });
 }
 
-
-
 function uncheckSelections () {
   // Clear ALL user selections (checkbox and radio inputs)
     $(":checked").each(function() {
@@ -297,9 +321,6 @@ function uncheckRadioSelections(type) {
     });
   };
 };
-
-
-
 
 function resetVariables() {
   var area;
@@ -345,8 +366,6 @@ function structureObjVariations() {
   objVariations = JSON.parse(JSON.stringify(objVariations));
 }
 
-
-
 function fillObjAllProducts() {
   structureObj(objAllProducts,"[]");
   arrListProducts.forEach(product => {
@@ -354,10 +373,7 @@ function fillObjAllProducts() {
     subtype = product.subtype;
     objAllProducts[type][subtype].push(product);
   });
-  // console.log(objAllProducts);
 };
-
-
 
 
 function fillObjVariations() {
@@ -385,7 +401,6 @@ function fillObjDisplay() {
       });
     };
   };
-  // objDisplay = JSON.parse(JSON.stringify(objDisplay));
 };
 
 
@@ -403,15 +418,15 @@ function quantify() {
     product = arrListProducts[i];
     if (product.area) {
       product.area = eval(product.area)
-      product.quantity = (area / product.area);
+      product.quantity = Math.ceil(area / product.area);
     } else if (product.volume) {
       product.volume = eval(product.volume)
-      product.quantity = (volume / product.volume);
+      product.quantity = Math.ceil(volume / product.volume);
     };
   };
 };
 
-//FUNCTION uniqueVariations
+
 function uniqueVariations(type) {
   if(type === undefined) {
     console.log("Undefined");
@@ -419,7 +434,6 @@ function uniqueVariations(type) {
       type = product.type;
       subtype = product.subtype;
       arrKinds.forEach(kind => {
-        // console.log(product.name+ " - "+ kind + ": " + product[kind]);
         variation = product[kind];
         if (objVariations[type][subtype][kind].indexOf(variation) === -1) {
           objVariations[type][subtype][kind].push(variation);
@@ -427,9 +441,7 @@ function uniqueVariations(type) {
       });
     });
   } else {
-
     for (subtype in objAllProducts[type]) {
-
       objVariations[type][subtype] = {};
       arrKinds.forEach(kind => {
         objVariations[type][subtype][kind] = [];
@@ -449,18 +461,15 @@ function variationSelectedByRadio() {
 }
 
 
-
-
 //Products
 
-
-// arrListProducts.push(new Product(name, price, "products_img/, material, model, color, area, volume, type));
+//////////////////////////////////////////////////////////////////////////////(name, price, url, material, model, color, area, volume, type, subtype)
 arrListProducts.push(new Product("Algaecide", 5.45, "products_img/algaecide_1l.png", undefined, undefined, undefined, undefined, (1 / 0.02), "WaterCare","Algaecide"));
 arrListProducts.push(new Product("Algaecide", 21.99, "products_img/algaecide_5l.png", undefined, undefined, undefined, undefined, (5 / 0.02), "WaterCare", "Algaecide"));
 arrListProducts.push(new Product("All-in-one Pool Care Kit", 8.99, "products_img/all_in_one_pool_care_kit.png", undefined, undefined, undefined, "area", undefined, "WaterCare", "Kit"));
 arrListProducts.push(new Product("Chlorine", 40, "products_img/chlorine_granular_10kg.jpg", undefined, undefined, undefined, undefined, (10 / 0.36), "WaterCare", "Chlorine"));
 arrListProducts.push(new Product("Chlorine", 12, "products_img/chlorine_tablets_200g.jpg", undefined, undefined, undefined, undefined, (0.2 / 0.36), "WaterCare", "Chlorine"));
-arrListProducts.push(new Product("Control Box RGB", 54.95, "products_img/control_box_RGB.png", undefined, undefined, "RGB", "area", undefined, "Lighting", "control Box"));
+arrListProducts.push(new Product("Control Box RGB", 54.95, "products_img/control_box_RGB.png", undefined, undefined, "RGB", "area", undefined, "Lighting", "Control Box"));
 arrListProducts.push(new Product("Flocculant", 4.90, "products_img/flocculant_1l.png", undefined, undefined, undefined, undefined, (1 / 0.02), "WaterCare", "Flocculant"));
 arrListProducts.push(new Product("Flocculant", 23.15, "products_img/flocculant_5l.jpg", undefined, undefined, undefined, undefined,(5 / 0.02), "WaterCare", "Flocculant"));
 arrListProducts.push(new Product("Handle Brush", 10, "products_img/handle_brush_plastic.png", "plastic", undefined, undefined, "area", undefined, "Cleaning", "Brush"));
@@ -476,7 +485,7 @@ arrListProducts.push(new Product("LED Light", 60, "products_img/LED_pool_light_L
 arrListProducts.push(new Product("LED Light", 65, "products_img/LED_pool_light_LED70_RGB_abs.png", "ABS", "LED 70", "RGB", 7, undefined, "Lighting", "LED Light"));
 arrListProducts.push(new Product("LED Light", 69, "products_img/LED_pool_light_LED70_RGB_stainless.jpg", "stainless steel", "LED 70", "RGB", 7, undefined, "Lighting", "LED Light"));
 arrListProducts.push(new Product("LED Light", 75, "products_img/LED_pool_light_LED130_RGB_abs.png", "ABS", "LED 130", "RGB", 9, undefined, "Lighting", "LED Light"));
-arrListProducts.push(new Product("LED Light", 60, "products_img/LED_pool_light_mega_white_abs.png", "ABS", "Mega LED", "white", 8, undefined, "Lighting", "LED Light"));
+arrListProducts.push(new Product("LED Light", 65, "products_img/LED_pool_light_mega_white_abs.png", "ABS", "Mega LED", "white", 7, undefined, "Lighting", "LED Light"));
 arrListProducts.push(new Product("Sand Filter", 90, "products_img/sand_filter_DFR11.png", undefined, undefined, undefined, undefined, "if(volume<17.6){volume}else{Infinity}", "Filter", "Filter"));
 arrListProducts.push(new Product("Sand Filter", 98, "products_img/sand_filter_DFR12.png", undefined, undefined, undefined, undefined, "if(volume<21.6){volume}else{Infinity}", "Filter", "Filter"));
 arrListProducts.push(new Product("Sand Filter", 109, "products_img/sand_filter_DFR15.png", undefined, undefined, undefined, undefined, "if(volume<32){volume}else{Infinity}", "Filter", "Filter"));
@@ -484,7 +493,7 @@ arrListProducts.push(new Product("Sand Filter", 119, "products_img/sand_filter_D
 arrListProducts.push(new Product("Sand Filter", 129, "products_img/sand_filter_DFR22.png", undefined, undefined, undefined, undefined, "if(volume<78.4){volume}else{Infinity}", "Filter", "Filter"));
 arrListProducts.push(new Product("Sand Filter", 140, "products_img/sand_filter_DFR24.png", undefined, undefined, undefined, undefined, "if(volume<88){volume}else{Infinity}", "Filter", "Filter"));
 arrListProducts.push(new Product("Solar Controller", 42, "products_img/solar_controller.jpg", undefined, undefined, undefined, "area", undefined, "Heaters", "Solar Controller"));
-arrListProducts.push(new Product("Solar Panels", 10, "products_img/solar_panels.jpg", undefined, undefined, undefined, 3, undefined, "Heaters", "solar Panels"));
+arrListProducts.push(new Product("Solar Panels", 10, "products_img/solar_panels.jpg", undefined, undefined, undefined, 3, undefined, "Heaters", "Solar Panels"));
 arrListProducts.push(new Product("Solar Pool Cover", 4, "products_img/solar_pool_cover_black_4mil.png", undefined, "4mil", "black", 1, undefined, "Heaters", "Solar Pool Cover"));
 arrListProducts.push(new Product("Solar Pool Cover", 7, "products_img/solar_pool_cover_black_8mil.jpg", undefined, "8mil", "black", 1, undefined, "Heaters", "Solar Pool Cover"));
 arrListProducts.push(new Product("Solar Pool Cover", 4, "products_img/solar_pool_cover_blue_4mil.jpg", undefined, "4mil", "blue", 1, undefined, "Heaters", "Solar Pool Cover"));
@@ -500,20 +509,15 @@ arrListProducts.push(new Product("Water Pump", 300, "products_img/water_pump_pf2
 
 
 
-// Create Cards of Products
-
+////////////////////////////////////////// TASKS /////////////////////////////////////////////////////
+////// Variables
 var jumboContainer;
 var subtypeContainer;
 var variationsContainer;
 var cardContainer;
 var deckContainer;
 
-
-
-
-
-
-
+////////////////////////// TASK JUMBO ///////////////////////
 
 let initTaskJumbo = (type, boolChecked) => {
   if(!boolChecked){
@@ -546,7 +550,7 @@ let createTaskJumbo = (type) => {
 
 }
 
-
+////////////////////////// TASK VARIATIONS ///////////////////////
 
 let initTaskVariations = (type) => {
   for (subtype in objDisplay[type]) {
@@ -631,8 +635,7 @@ let createTaskVariations = (type, subtype, kind) => {
 }
 
 
-
-
+////////////////////////// TASK CARDS ///////////////////////
 
 let initTaskCards = (type) => {
 
@@ -647,9 +650,6 @@ let initTaskCards = (type) => {
   };
 };
 
-
-
-
 let refreshTaskCards = (type, subtype) => {
   document.getElementById(type + "-" + subtype + "-cards-Container").innerHTML = "";
   cardContainer = document.getElementById(type + "-" + subtype + "-cards-Container")
@@ -659,9 +659,6 @@ let refreshTaskCards = (type, subtype) => {
     createTaskCard(product);
   });
 };
-
-
-
 
 let createTaskDeck = (type, subtype) => {
 
@@ -677,12 +674,6 @@ let createTaskDeck = (type, subtype) => {
 
 }
 
-
-
-
-
-
-// task create cards
 let createTaskCard = (product) => {
 
   let grid = document.createElement('div');
@@ -723,9 +714,5 @@ let createTaskCard = (product) => {
 }
 
 
-
-
-
-
-
+/////////////////////////////////////////// INITIALIZING /////////////////////////////////
 initObjects();
