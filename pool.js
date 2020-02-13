@@ -203,7 +203,6 @@ function resetButton() {
   hideCheckboxTypes();
   uncheckSelections();
   // reset product objects and variables
-  clearProducts();
   resetVariables();
   // Enable calculate button
   $('#calculateBtn').removeClass("disabled");
@@ -248,21 +247,20 @@ function hideCheckboxTypes() {
 function clickCheckBoxTypes(obj) {
   // Runs when user clicks checkbox from types
   var type = $(obj).val();
-  console.log(type);
   var boolChecked = $(obj).is(":checked")
-  console.log(boolChecked);
   // Will display products if checked or clear if unchecked
+  fillObjDisplay();
   initTaskJumbo(type, boolChecked);
   if (boolChecked) {
     initTaskVariations(type);
     initTaskCards(type);
     setOnClickRadioFunc();
+  } else{
+    uncheckRadioSelections(type);
+    uniqueVariations(type);
   }
+}
 
-  // initTaskCards(type, boolChecked);
-  /// needs to run everytime variations options are shown (radio buttons)
-
-};
 
 function setOnClickRadioFunc() {
   // get attributes from radio input clicked and store in variables get+[type, kind and variation]
@@ -289,6 +287,19 @@ function uncheckSelections () {
         $(this).prop("checked",false);
     });
 };
+
+function uncheckRadioSelections(type) {
+  var name = $(":radio:checked").prop("name")
+  if (!name) {return}
+  if (type === name.slice(0,type.length)) {
+    $(":radio:checked").each(function() {
+        $(this).prop("checked",false);
+    });
+  };
+};
+
+
+
 
 function resetVariables() {
   var area;
@@ -324,7 +335,6 @@ function structureObj(obj, structure) {
 
 function structureObjVariations() {
   structureObj(objVariations, "{}");
-  objVariations = JSON.parse(JSON.stringify(objVariations));
   arrKinds.forEach(kind => {
     for (type in objVariations) {
       for (subtype in objVariations[type]) {
@@ -332,7 +342,7 @@ function structureObjVariations() {
       }
     }
   });
-  // console.log(objVariations);
+  objVariations = JSON.parse(JSON.stringify(objVariations));
 }
 
 
@@ -357,7 +367,6 @@ function fillObjVariations() {
 }
 
 
-
 function fillObjDisplay() {
   objDisplay = {};
   structureObj(objDisplay,"[]");
@@ -368,18 +377,15 @@ function fillObjDisplay() {
         var add = true;
         arrKinds.forEach((kind, i) => {
           variation = product[kind];
-          // console.log(product);
-          // console.log(!variation);
-          // console.log((objVariations[type][subtype][kind].indexOf(variation) > -1));
           add = add * ( (!variation) || (objVariations[type][subtype][kind].indexOf(variation) > -1) )
         });
         if(add) {
-                      // if (objDisplay[type][subtype].indexOf(product) === -1) {
           objDisplay[type][subtype].push(product);
         }
       });
     };
   };
+  // objDisplay = JSON.parse(JSON.stringify(objDisplay));
 };
 
 
@@ -406,19 +412,37 @@ function quantify() {
 };
 
 //FUNCTION uniqueVariations
-function uniqueVariations() {
-  arrListProducts.forEach(product => {
-    type = product.type;
-    subtype = product.subtype;
-    arrKinds.forEach(kind => {
-      // console.log(product.name+ " - "+ kind + ": " + product[kind]);
-      variation = product[kind];
-      if (objVariations[type][subtype][kind].indexOf(variation) === -1) {
-        objVariations[type][subtype][kind].push(variation);
-      };
+function uniqueVariations(type) {
+  if(type === undefined) {
+    console.log("Undefined");
+    arrListProducts.forEach(product => {
+      type = product.type;
+      subtype = product.subtype;
+      arrKinds.forEach(kind => {
+        // console.log(product.name+ " - "+ kind + ": " + product[kind]);
+        variation = product[kind];
+        if (objVariations[type][subtype][kind].indexOf(variation) === -1) {
+          objVariations[type][subtype][kind].push(variation);
+        };
+      });
     });
-  });
-}
+  } else {
+
+    for (subtype in objAllProducts[type]) {
+
+      objVariations[type][subtype] = {};
+      arrKinds.forEach(kind => {
+        objVariations[type][subtype][kind] = [];
+        objAllProducts[type][subtype].forEach(product => {
+          variation = product[kind];
+          if (objVariations[type][subtype][kind].indexOf(variation) === -1) {
+            objVariations[type][subtype][kind].push(variation);
+          };
+        });
+      });
+    }
+  };
+};
 
 function variationSelectedByRadio() {
   objVariations[getType][getSubtype][getKind] = getVariation;
@@ -492,13 +516,10 @@ var cardContainer;
 
 
 let initTaskJumbo = (type, boolChecked) => {
-  console.log("inittaskjumbo starts");
-  console.log("variables are "+type+" " + boolChecked);
   if(!boolChecked){
     $('#jumbo-'+type).remove();
   } else {
     jumboContainer = document.getElementById('jumbo-Container');
-      console.log("will start createTaskJumbo with " + type);
       createTaskJumbo(type);
   };
 }
@@ -532,7 +553,6 @@ let initTaskVariations = (type) => {
     variationsContainer = document.getElementById(type + "-" + subtype + "-variations-Container")
 
     arrKinds.forEach(kind => {
-      console.log(type+subtype+kind);
       if (objVariations[type][subtype][kind].length > 1) {
         createTaskVariations(type, subtype, kind);
       }
@@ -562,7 +582,6 @@ let createTaskSubtypes = (type, subtype) => {
 
 let createTaskVariations = (type, subtype, kind) => {
 
-  console.log("TaskVariations initiated");
   var strong = document.createElement("strong");
 
   var p = document.createElement("p");
